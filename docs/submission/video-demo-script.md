@@ -42,7 +42,7 @@
 
 ## Part 3: Grounded Investigation & Hindsight Recall (1:00 – 2:30)
 
-**[Screen: Mode B on `/theatre` lights up with cyan glow]**
+**[Screen: Mode B on `/theatre` highlights in crisp Emerald with active memory badge]**
 
 > **Voiceover (1:00–1:20):**  
 > *"Now look at Mode B on the right: PagerLore with Hindsight active. PagerLore invokes Hindsight's `recall` endpoint, running parallel semantic, keyword, graph, and temporal search. In less than 200 milliseconds, it recalls incident INC-2024-089 with a 96% relevance score."*
