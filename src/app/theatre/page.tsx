@@ -1,0 +1,41 @@
+"use client";
+
+import React, { useState } from "react";
+import { AppSidebar } from "@/components/layout/AppSidebar";
+import { AppHeader } from "@/components/layout/AppHeader";
+import { CommandPalette } from "@/components/layout/CommandPalette";
+import { MemoryComparisonView } from "@/components/theatre/MemoryComparisonView";
+import { Tv, Sparkles, Terminal } from "lucide-react";
+
+export default function DemoTheatrePage() {
+  const [cmdOpen, setCmdOpen] = useState(false);
+
+  return (
+    <div className="flex min-h-screen bg-[#07090e]">
+      <AppSidebar />
+      <div className="flex-1 flex flex-col min-w-0">
+        <AppHeader onOpenCommandPalette={() => setCmdOpen(true)} />
+        <CommandPalette isOpen={cmdOpen} onClose={() => setCmdOpen(false)} />
+
+        <main className="flex-1 p-6 lg:p-8 max-w-7xl w-full mx-auto space-y-6">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div>
+              <div className="flex items-center gap-2 text-xs font-mono text-purple-400 mb-1">
+                <Tv className="w-4 h-4" />
+                <span>SIGNATURE DEMO THEATRE</span>
+              </div>
+              <h1 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
+                Memory ON vs. Memory OFF
+              </h1>
+              <p className="text-xs sm:text-sm text-slate-400 mt-1">
+                Experience the tangible contrast: how an AI agent performs when isolated versus when grounded in persistent Hindsight memory.
+              </p>
+            </div>
+          </div>
+
+          <MemoryComparisonView incidentId="INC-2024-142" />
+        </main>
+      </div>
+    </div>
+  );
+}
