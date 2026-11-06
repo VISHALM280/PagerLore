@@ -162,3 +162,4 @@ Hindsight parses the post-mortem, extracts structured factual assertions, and in
 3. **Current Limitations:** Real-world incident logs often contain sensitive credentials and customer PII. Production deployments must run an anonymization filter before sending raw log traces to LLM and memory endpoints.
 
 Production incidents will always happen. But with persistent memory, your engineering team never has to start diagnosing from zero again.
+

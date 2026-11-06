@@ -11,7 +11,7 @@ export default function DemoTheatrePage() {
   const [cmdOpen, setCmdOpen] = useState(false);
 
   return (
-    <div className="flex min-h-screen bg-[#07090e]">
+    <div className="flex min-h-screen bg-[#F8F7F2]">
       <AppSidebar />
       <div className="flex-1 flex flex-col min-w-0">
         <AppHeader onOpenCommandPalette={() => setCmdOpen(true)} />
@@ -20,14 +20,14 @@ export default function DemoTheatrePage() {
         <main className="flex-1 p-6 lg:p-8 max-w-7xl w-full mx-auto space-y-6">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
-              <div className="flex items-center gap-2 text-xs font-mono text-purple-400 mb-1">
+              <div className="flex items-center gap-2 text-xs font-mono text-[#267B5B] mb-1 font-semibold">
                 <Tv className="w-4 h-4" />
-                <span>SIGNATURE DEMO THEATRE</span>
+                <span>BENCHMARK THEATRE</span>
               </div>
-              <h1 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
+              <h1 className="text-2xl sm:text-3xl font-bold text-[#25352D] tracking-tight">
                 Memory ON vs. Memory OFF
               </h1>
-              <p className="text-xs sm:text-sm text-slate-400 mt-1">
+              <p className="text-xs sm:text-sm text-[#788579] mt-1">
                 Experience the tangible contrast: how an AI agent performs when isolated versus when grounded in persistent Hindsight memory.
               </p>
             </div>
@@ -39,3 +39,4 @@ export default function DemoTheatrePage() {
     </div>
   );
 }
+

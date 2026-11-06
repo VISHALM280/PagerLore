@@ -164,7 +164,7 @@ function PostMortemsContent() {
   const selectedIncident = incidents.find((i) => i.id === selectedIncidentId);
 
   return (
-    <div className="flex min-h-screen bg-[#07090e]">
+    <div className="flex min-h-screen bg-[#F8F7F2]">
       <AppSidebar />
       <div className="flex-1 flex flex-col min-w-0">
         <AppHeader onOpenCommandPalette={() => setCmdOpen(true)} />
@@ -173,14 +173,14 @@ function PostMortemsContent() {
         <main className="flex-1 p-6 lg:p-8 max-w-5xl w-full mx-auto space-y-6">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
-              <div className="flex items-center gap-2 text-xs font-mono text-cyan-400 mb-1">
+              <div className="flex items-center gap-2 text-xs font-mono text-[#267B5B] mb-1 font-semibold">
                 <FileText className="w-4 h-4" />
                 <span>POST-MORTEM & INSTITUTIONAL LEARNING</span>
               </div>
-              <h1 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
+              <h1 className="text-2xl sm:text-3xl font-bold text-[#25352D] tracking-tight">
                 Post-Mortem Knowledge Synthesis
               </h1>
-              <p className="text-xs sm:text-sm text-slate-400 mt-1">
+              <p className="text-xs sm:text-sm text-[#788579] mt-1">
                 Record verified incident resolutions. PagerLore automatically retains lessons in Hindsight to prevent recurrence.
               </p>
             </div>
@@ -188,26 +188,26 @@ function PostMortemsContent() {
 
           {/* Retention Success Celebration Banner */}
           {retentionSuccess && (
-            <div className="rounded-2xl bg-[#091a18] border-2 border-emerald-500/70 p-6 shadow-[0_0_35px_rgba(16,185,129,0.2)] animate-in fade-in duration-300">
+            <div className="rounded-2xl bg-[#EAF2EC] border-2 border-[#267B5B] p-6 shadow-sm animate-in fade-in duration-300">
               <div className="flex items-start justify-between gap-4">
                 <div className="space-y-2">
-                  <div className="flex items-center gap-2 text-emerald-400 font-mono text-xs font-bold uppercase">
+                  <div className="flex items-center gap-2 text-[#267B5B] font-mono text-xs font-bold uppercase">
                     <CheckCircle2 className="w-5 h-5" />
                     <span>Retained in Hindsight Memory Bank</span>
                   </div>
-                  <h3 className="text-lg font-bold text-white">
+                  <h3 className="text-lg font-bold text-[#194B38]">
                     Incident {selectedIncidentId} has become permanent engineering memory.
                   </h3>
-                  <p className="text-xs text-slate-300 leading-relaxed max-w-2xl font-sans">
+                  <p className="text-xs text-[#25352D] leading-relaxed max-w-2xl font-sans">
                     The verified root cause, diagnostic timeline, and remediation command have been indexed into bank{" "}
-                    <code className="text-cyan-300 font-mono font-semibold">{retentionSuccess.bank_id}</code>. Future investigations encountering similar connection wait spikes or deployment regressions will recall this knowledge automatically.
+                    <code className="text-[#194B38] font-mono font-semibold">{retentionSuccess.bank_id}</code>. Future investigations encountering similar connection wait spikes or deployment regressions will recall this knowledge automatically.
                   </p>
-                  <div className="flex flex-wrap items-center gap-4 text-xs font-mono text-slate-400 pt-2">
-                    <span>Memory ID: <strong className="text-cyan-300">{retentionSuccess.memory_id}</strong></span>
+                  <div className="flex flex-wrap items-center gap-4 text-xs font-mono text-[#788579] pt-2">
+                    <span>Memory ID: <strong className="text-[#267B5B]">{retentionSuccess.memory_id}</strong></span>
                     <span>·</span>
-                    <span>Facts Extracted: <strong className="text-white">{retentionSuccess.facts_extracted_count}</strong></span>
+                    <span>Facts Extracted: <strong className="text-[#25352D]">{retentionSuccess.facts_extracted_count}</strong></span>
                     <span>·</span>
-                    <Link href="/vault" className="text-cyan-400 hover:underline">
+                    <Link href="/vault" className="text-[#267B5B] hover:underline font-semibold">
                       Inspect in Memory Vault →
                     </Link>
                   </div>
@@ -217,13 +217,13 @@ function PostMortemsContent() {
           )}
 
           {/* Incident Selector */}
-          <div className="rounded-xl bg-[#090e18] border border-[#1c263c] p-4 flex items-center justify-between gap-4">
+          <div className="rounded-xl bg-white border border-[#E9E8DF] p-4 flex items-center justify-between gap-4 shadow-sm">
             <div className="flex items-center gap-3">
-              <span className="text-xs font-mono text-slate-400">Incident:</span>
+              <span className="text-xs font-mono text-[#788579]">Incident:</span>
               <select
                 value={selectedIncidentId}
                 onChange={(e) => handleIncidentChange(e.target.value)}
-                className="bg-[#0e1524] text-xs font-mono text-cyan-300 border border-[#1e2d4a] rounded-lg px-3 py-2 focus:outline-none focus:border-cyan-500 cursor-pointer"
+                className="bg-[#F8F7F2] text-xs font-mono text-[#25352D] border border-[#E9E8DF] rounded-xl px-3 py-2 focus:outline-none focus:border-[#267B5B] cursor-pointer"
               >
                 {incidents.map((inc) => (
                   <option key={inc.id} value={inc.id}>
@@ -234,7 +234,7 @@ function PostMortemsContent() {
             </div>
 
             {selectedIncident?.postmortem?.hindsight_retained && (
-              <span className="text-[11px] font-mono text-cyan-300 bg-cyan-950/60 px-2.5 py-1 rounded border border-cyan-800/40">
+              <span className="text-[11px] font-mono text-[#267B5B] bg-[#EAF2EC] px-3 py-1 rounded-full border border-[#267B5B]/30 font-semibold">
                 ✓ Retained in Vault
               </span>
             )}
@@ -242,10 +242,10 @@ function PostMortemsContent() {
 
           {/* Post-Mortem Form */}
           <form onSubmit={handleSubmitPostMortem} className="space-y-6">
-            <div className="rounded-2xl bg-[#090e18] border border-[#1c263c] p-6 sm:p-8 shadow-xl space-y-6">
+            <div className="rounded-2xl bg-white border border-[#E9E8DF] p-6 sm:p-8 shadow-sm space-y-6">
               {/* Summary */}
               <div>
-                <label className="block text-xs font-mono uppercase text-slate-300 mb-1.5">
+                <label className="block text-xs font-mono uppercase text-[#788579] mb-1.5 font-semibold">
                   1. Incident Executive Summary *
                 </label>
                 <textarea
@@ -254,13 +254,13 @@ function PostMortemsContent() {
                   value={summary}
                   onChange={(e) => setSummary(e.target.value)}
                   placeholder="High-level narrative of what failed, user impact, and resolution..."
-                  className="w-full bg-[#0e1524] text-xs text-slate-100 p-3 rounded-lg border border-[#1e2d4a] focus:outline-none focus:border-cyan-500 font-sans leading-relaxed"
+                  className="w-full bg-[#F8F7F2] text-xs text-[#25352D] p-3 rounded-xl border border-[#E9E8DF] focus:outline-none focus:border-[#267B5B] font-sans leading-relaxed"
                 />
               </div>
 
               {/* Confirmed Root Cause */}
               <div>
-                <label className="block text-xs font-mono uppercase text-cyan-300 mb-1.5 font-bold">
+                <label className="block text-xs font-mono uppercase text-[#267B5B] mb-1.5 font-bold">
                   2. Confirmed Root Cause (Retained in Hindsight) *
                 </label>
                 <textarea
@@ -269,13 +269,13 @@ function PostMortemsContent() {
                   value={rootCause}
                   onChange={(e) => setRootCause(e.target.value)}
                   placeholder="e.g. HikariCP maxLifetime was set to 1800000ms (30m) exceeding pgBouncer server_idle_timeout 600s (10m)..."
-                  className="w-full bg-[#0e1524] text-xs text-slate-100 p-3 rounded-lg border border-cyan-800/60 focus:outline-none focus:border-cyan-500 font-sans leading-relaxed shadow-[0_0_15px_rgba(0,240,255,0.1)]"
+                  className="w-full bg-[#F8F7F2] text-xs text-[#25352D] p-3 rounded-xl border border-[#267B5B]/40 focus:outline-none focus:border-[#267B5B] font-sans leading-relaxed"
                 />
               </div>
 
               {/* Final Resolution */}
               <div>
-                <label className="block text-xs font-mono uppercase text-emerald-400 mb-1.5 font-bold">
+                <label className="block text-xs font-mono uppercase text-[#194B38] mb-1.5 font-bold">
                   3. Verified Remediation & Fix *
                 </label>
                 <textarea
@@ -284,14 +284,14 @@ function PostMortemsContent() {
                   value={finalResolution}
                   onChange={(e) => setFinalResolution(e.target.value)}
                   placeholder="Exact steps taken to mitigate and restore SLO..."
-                  className="w-full bg-[#0e1524] text-xs text-slate-100 p-3 rounded-lg border border-emerald-800/60 focus:outline-none focus:border-emerald-500 font-sans leading-relaxed"
+                  className="w-full bg-[#F8F7F2] text-xs text-[#25352D] p-3 rounded-xl border border-[#267B5B]/40 focus:outline-none focus:border-[#267B5B] font-sans leading-relaxed"
                 />
               </div>
 
               {/* Two columns: Successful vs Failed */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-mono uppercase text-slate-300 mb-1.5">
+                  <label className="block text-xs font-mono uppercase text-[#788579] mb-1.5 font-semibold">
                     Successful Actions (One per line)
                   </label>
                   <textarea
@@ -299,12 +299,12 @@ function PostMortemsContent() {
                     value={successfulActions}
                     onChange={(e) => setSuccessfulActions(e.target.value)}
                     placeholder="Hot-patch HikariCP maxLifetime to 540000ms&#10;Rolling restart of deployment pods"
-                    className="w-full bg-[#0e1524] text-xs text-slate-100 p-3 rounded-lg border border-[#1e2d4a] focus:outline-none focus:border-cyan-500 font-mono leading-relaxed"
+                    className="w-full bg-[#F8F7F2] text-xs text-[#25352D] p-3 rounded-xl border border-[#E9E8DF] focus:outline-none focus:border-[#267B5B] font-mono leading-relaxed"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-mono uppercase text-slate-300 mb-1.5">
+                  <label className="block text-xs font-mono uppercase text-[#788579] mb-1.5 font-semibold">
                     Failed Attempts / Red Herrings (One per line)
                   </label>
                   <textarea
@@ -312,14 +312,14 @@ function PostMortemsContent() {
                     value={failedAttempts}
                     onChange={(e) => setFailedAttempts(e.target.value)}
                     placeholder="Scaling up max_connections on primary DB (did not resolve proxy drop)"
-                    className="w-full bg-[#0e1524] text-xs text-slate-100 p-3 rounded-lg border border-[#1e2d4a] focus:outline-none focus:border-cyan-500 font-mono leading-relaxed"
+                    className="w-full bg-[#F8F7F2] text-xs text-[#25352D] p-3 rounded-xl border border-[#E9E8DF] focus:outline-none focus:border-[#267B5B] font-mono leading-relaxed"
                   />
                 </div>
               </div>
 
               {/* Preventive Measures */}
               <div>
-                <label className="block text-xs font-mono uppercase text-slate-300 mb-1.5">
+                <label className="block text-xs font-mono uppercase text-[#788579] mb-1.5 font-semibold">
                   Permanent Preventive Measures & CI Guardrails
                 </label>
                 <textarea
@@ -327,20 +327,20 @@ function PostMortemsContent() {
                   value={preventiveMeasures}
                   onChange={(e) => setPreventiveMeasures(e.target.value)}
                   placeholder="Add CI linter asserting client pool maxLifetime < proxy timeout&#10;Add alert on HikariCP wait time > 250ms"
-                  className="w-full bg-[#0e1524] text-xs text-slate-100 p-3 rounded-lg border border-[#1e2d4a] focus:outline-none focus:border-cyan-500 font-sans leading-relaxed"
+                  className="w-full bg-[#F8F7F2] text-xs text-[#25352D] p-3 rounded-xl border border-[#E9E8DF] focus:outline-none focus:border-[#267B5B] font-sans leading-relaxed"
                 />
               </div>
 
               {/* Bottom Actions */}
-              <div className="pt-4 border-t border-[#1c263c] flex items-center justify-between">
-                <span className="text-xs text-slate-500 font-mono">
+              <div className="pt-4 border-t border-[#E9E8DF] flex items-center justify-between">
+                <span className="text-xs text-[#788579] font-mono">
                   Submitting retains verified facts into Hindsight bank immediately.
                 </span>
 
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="px-6 py-3 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs flex items-center gap-2 shadow-[0_0_20px_rgba(0,240,255,0.4)] transition-all transform active:scale-95 disabled:opacity-50"
+                  className="px-6 py-3 rounded-xl bg-[#267B5B] hover:bg-[#194B38] text-white font-semibold text-xs flex items-center gap-2 shadow-sm transition-all transform active:scale-95 disabled:opacity-50"
                 >
                   <Send className={`w-3.5 h-3.5 ${isSubmitting ? "animate-spin" : ""}`} />
                   <span>{isSubmitting ? "Retaining into Hindsight..." : "Submit & Retain in Memory Vault"}</span>
@@ -356,7 +356,7 @@ function PostMortemsContent() {
 
 export default function PostMortemsPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-[#07090e] text-slate-400 flex items-center justify-center font-mono text-xs">Loading Post-Mortems...</div>}>
+    <Suspense fallback={<div className="min-h-screen bg-[#F8F7F2] text-[#788579] flex items-center justify-center font-mono text-xs">Loading Post-Mortems...</div>}>
       <PostMortemsContent />
     </Suspense>
   );

@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { DataStore } from "@/lib/data/store";
 
+export const dynamic = "force-dynamic";
+
 export async function POST() {
   try {
     const res = DataStore.resetDemo();
@@ -13,3 +15,4 @@ export async function POST() {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
+

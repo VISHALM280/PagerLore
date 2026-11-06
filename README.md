@@ -87,3 +87,4 @@ Complete submission materials are ready in [`docs/submission/`](./docs/submissio
 ## 🛡️ License
 
 MIT License. Designed with precision for reliable production engineering.
+

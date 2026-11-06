@@ -1,155 +1,120 @@
 "use client";
 
 import React, { useState } from "react";
-import { Database, BrainCircuit, Sparkles, ArrowRight, CheckCircle2, History, ShieldCheck } from "lucide-react";
+import { Database, CheckCircle2, ArrowRight, BookOpen, Layers } from "lucide-react";
 
 export function SolutionSection() {
   const [activeStep, setActiveStep] = useState(2); // default to Historical Recall
 
   const steps = [
     {
-      id: 0,
-      title: "01 · Past Incident",
+      step: "01",
+      title: "Previous Incident",
       subtitle: "The Production Outage",
-      badge: "INC-2024-089",
-      description: "An expensive checkout outage occurs. Engineers spend hours isolating HikariCP connection pool exhaustion and pgBouncer timeout asymmetry.",
-      detailHeader: "Captured Telemetry & Metrics",
-      detailContent: "PSQLException: Connection is not available, request timed out after 30005ms. Pool saturation: 100%.",
-      icon: History,
+      summary: "A critical service degrades. Engineers identify the root cause after painstaking diagnostics.",
+      detail: "INC-2024-089: HikariCP connection pool starvation caused by pgBouncer 10-minute idle drop.",
     },
     {
-      id: 1,
-      title: "02 · Retained Experience",
-      subtitle: "Hindsight RETAIN",
-      badge: "Core Operation",
-      description: "Upon incident resolution, PagerLore extracts structured facts, verified root causes, and configuration relationships into an isolated Hindsight memory bank.",
-      detailHeader: "Structured Extraction in Memory Bank",
-      detailContent: "Fact: HikariCP maxLifetime must be strictly < pgBouncer server_idle_timeout (540s vs 600s).",
-      icon: Database,
+      step: "02",
+      title: "Retained Knowledge",
+      subtitle: "Structured Facts in Bank",
+      summary: "Upon resolution, verified findings and preventive rules are committed to the memory bank.",
+      detail: "Rule retained: HikariCP maxLifetime must be strictly less than pgBouncer server_idle_timeout.",
     },
     {
-      id: 2,
-      title: "03 · Historical Recall",
-      subtitle: "Hindsight RECALL",
-      badge: "Multi-Path RRF",
-      description: "When a new incident exhibits connection wait spikes or deployment regressions, Hindsight executes semantic, keyword, graph, and temporal search in parallel.",
-      detailHeader: "Multi-Strategy Retrieval Result",
-      detailContent: "Relevance score: 0.96. Instant match: 'Identical pool starvation pattern resolved in INC-2024-089'.",
-      icon: BrainCircuit,
+      step: "03",
+      title: "Historical Recall",
+      subtitle: "Multi-Strategy Search",
+      summary: "When a new symptom emerges, PagerLore retrieves relevant memories via semantic and graph search.",
+      detail: "Relevance score 0.96: Matched connection pool saturation signature with 96% confidence.",
     },
     {
-      id: 3,
-      title: "04 · New Investigation",
-      subtitle: "Contextual Agent Reasoning",
-      badge: "No Hallucination",
-      description: "PagerLore correlates incoming git commit diffs with recalled historical memories, directly identifying the exact misconfigured parameter in seconds.",
-      detailHeader: "Evidence-Backed Hypothesis",
-      detailContent: "Commit a4f91e8 raised max-lifetime to 1800000ms, violating the documented pgBouncer boundary rule.",
-      icon: Sparkles,
+      step: "04",
+      title: "Current Investigation",
+      subtitle: "Contextual Grounding",
+      summary: "The investigation agent correlates live git diffs with historical facts, avoiding speculation.",
+      detail: "Pinpointed commit a4f91e8 diff that accidentally raised max-lifetime to 1800000ms.",
     },
     {
-      id: 4,
-      title: "05 · Verified Resolution",
-      subtitle: "Human-in-the-Loop Fix",
-      badge: "SRE Verified",
-      description: "The on-call engineer inspects the exact historical proof, verifies the low-risk remediation, approves execution, and resolves the incident in minutes.",
-      detailHeader: "Approved Remediation Action",
-      detailContent: "Hot-patched HIKARI_MAX_LIFETIME to 540000ms. Saturation dropped from 99% to 18% in 45s.",
-      icon: ShieldCheck,
+      step: "05",
+      title: "Informed Resolution",
+      subtitle: "Verified SRE Fix",
+      summary: "The on-call engineer reviews the proven remediation, authorizes the patch, and restores SLO.",
+      detail: "Hot-patched HIKARI_MAX_LIFETIME=540000. Pool saturation normalized from 98% to 18% in 45s.",
     },
   ];
 
   return (
-    <section id="solution" className="relative py-28 bg-[#07090e] border-t border-[#161f33] overflow-hidden">
-      {/* Ambient background glow */}
-      <div className="absolute top-1/3 right-1/4 w-[600px] h-[400px] bg-cyan-900/10 rounded-full blur-[140px] pointer-events-none" />
-
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="solution" className="relative py-28 bg-[#F8F7F2] border-t border-[#E9E8DF]">
+      <div className="max-w-6xl mx-auto px-6 sm:px-8">
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-950/60 border border-cyan-800/50 text-cyan-400 text-xs font-mono uppercase tracking-wider mb-4">
-            <Sparkles className="w-3.5 h-3.5" />
+        <div className="max-w-2xl mb-16">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#EAF2EC] border border-[#BFD8C6] text-[#267B5B] text-xs font-mono uppercase tracking-wider mb-4">
             <span>The Memory-Powered Loop</span>
           </div>
-          <h2 className="text-3xl sm:text-5xl font-bold text-white tracking-tight leading-tight">
-            Give your engineering team <br />
-            <span className="text-gradient-cyan">a permanent memory.</span>
+          <h2 className="text-4xl sm:text-5xl font-bold tracking-tight text-[#25352D] leading-tight">
+            What if your engineering <br />
+            <span className="italic font-serif font-normal text-[#267B5B]">team remembered?</span>
           </h2>
-          <p className="mt-4 text-base text-slate-400 leading-relaxed">
-            Powered by <strong>Hindsight</strong>, PagerLore bridges the gap between historical post-mortems and active incident response.
-            Every outage leaves a verified lesson—indexed, interconnected, and ready the moment a symptom reappears.
+          <p className="mt-4 text-base text-[#788579] leading-relaxed">
+            PagerLore turns post-mortems from static archive documents into active operational memory.
+            Every resolved outage contributes to an interconnected knowledge graph ready to assist the next investigation.
           </p>
         </div>
 
-        {/* Step Progression Buttons */}
-        <div className="grid grid-cols-2 sm:grid-cols-5 gap-2.5 mb-10">
+        {/* Step Navigation Pill Buttons */}
+        <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 mb-8">
           {steps.map((s, idx) => {
-            const Icon = s.icon;
             const isSelected = activeStep === idx;
             return (
               <button
-                key={s.id}
+                key={s.step}
                 onClick={() => setActiveStep(idx)}
-                className={`p-3 rounded-xl text-left border transition-all ${
+                className={`p-3.5 rounded-lg text-left border transition-all text-xs font-mono ${
                   isSelected
-                    ? "bg-[#111a2e] border-cyan-500 shadow-[0_0_20px_rgba(0,240,255,0.2)] text-white"
-                    : "bg-[#0b0f1a] border-[#1c263c] text-slate-400 hover:text-slate-200 hover:border-slate-700"
+                    ? "bg-[#FFFFFF] border-[#267B5B] shadow-editorial text-[#25352D]"
+                    : "bg-[#F1F0E9] border-[#E9E8DF] text-[#788579] hover:bg-[#FFFFFF]"
                 }`}
               >
-                <div className="flex items-center justify-between mb-2">
-                  <Icon className={`w-4 h-4 ${isSelected ? "text-cyan-400" : "text-slate-500"}`} />
-                  <span className={`text-[10px] font-mono px-1.5 py-0.2 rounded ${
-                    isSelected ? "bg-cyan-950 text-cyan-300 border border-cyan-700/50" : "bg-slate-900 text-slate-500"
-                  }`}>
-                    {s.badge}
+                <div className="flex items-center justify-between mb-1.5">
+                  <span className={`font-bold ${isSelected ? "text-[#267B5B]" : "text-[#788579]"}`}>
+                    {s.step}
                   </span>
+                  {isSelected && <span className="w-1.5 h-1.5 rounded-full bg-[#267B5B]" />}
                 </div>
-                <div className="text-xs font-bold leading-tight truncate">{s.title}</div>
-                <div className="text-[10px] font-mono text-slate-500 truncate mt-0.5">{s.subtitle}</div>
+                <div className="font-sans font-semibold text-xs leading-tight truncate">
+                  {s.title}
+                </div>
               </button>
             );
           })}
         </div>
 
-        {/* Active Step Interactive Showcase Card */}
-        <div className="rounded-2xl bg-[#0d1424] border border-[#1e2d4a] p-6 sm:p-10 shadow-2xl relative overflow-hidden">
-          <div className="flex flex-col lg:flex-row items-start justify-between gap-8">
-            <div className="flex-1">
-              <div className="flex items-center gap-2 text-xs font-mono text-cyan-400 mb-2">
-                <span>Phase {activeStep + 1} of 5</span>
-                <span>·</span>
-                <span>{steps[activeStep].subtitle}</span>
+        {/* Selected Step Detail Panel */}
+        <div className="rounded-xl bg-[#FFFFFF] border border-[#E9E8DF] p-8 shadow-editorial">
+          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-8">
+            <div className="space-y-3 flex-1">
+              <div className="text-xs font-mono text-[#267B5B] font-semibold uppercase tracking-wider">
+                Phase {steps[activeStep].step} · {steps[activeStep].subtitle}
               </div>
-              <h3 className="text-2xl sm:text-3xl font-bold text-white mb-4">
-                {steps[activeStep].title.replace(/^\d+ · /, "")}
+              <h3 className="text-2xl font-bold text-[#25352D]">
+                {steps[activeStep].title}
               </h3>
-              <p className="text-slate-300 text-sm leading-relaxed mb-6 max-w-xl">
-                {steps[activeStep].description}
+              <p className="text-sm text-[#788579] leading-relaxed max-w-xl">
+                {steps[activeStep].summary}
               </p>
-
-              <div className="flex items-center gap-4 text-xs font-mono text-slate-400">
-                <div className="flex items-center gap-1.5">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-                  <span>Ground truth provenance</span>
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <CheckCircle2 className="w-4 h-4 text-cyan-400" />
-                  <span>Zero hallucinated resolutions</span>
-                </div>
-              </div>
             </div>
 
-            {/* Code / Telemetry Panel */}
-            <div className="w-full lg:w-96 rounded-xl bg-[#07090e] border border-cyan-950/80 p-4 font-mono text-xs">
-              <div className="text-[10px] uppercase text-cyan-400 tracking-wider font-semibold border-b border-[#1c263c] pb-2 mb-3">
-                {steps[activeStep].detailHeader}
+            <div className="w-full lg:w-96 rounded-lg bg-[#F8F7F2] border border-[#E9E8DF] p-4 font-mono text-xs space-y-2">
+              <div className="text-[10px] uppercase text-[#788579] tracking-wider font-semibold border-b border-[#E9E8DF] pb-1.5">
+                Observed System Evidence
               </div>
-              <div className="text-slate-300 bg-[#0c1220] p-3 rounded-lg border border-[#162136] leading-relaxed">
-                {steps[activeStep].detailContent}
+              <div className="text-[#25352D] leading-relaxed font-sans text-xs pt-1">
+                {steps[activeStep].detail}
               </div>
-              <div className="mt-3 flex items-center justify-between text-[10px] text-slate-500">
-                <span>Bank: pagerlore-production-bank</span>
-                <span className="text-emerald-400">STATUS: VERIFIED</span>
+              <div className="pt-2 border-t border-[#E9E8DF] flex items-center justify-between text-[10px] text-[#788579]">
+                <span>Status: VERIFIED</span>
+                <span className="text-[#267B5B] font-semibold">Grounded Memory</span>
               </div>
             </div>
           </div>

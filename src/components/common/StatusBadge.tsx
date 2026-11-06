@@ -8,29 +8,33 @@ interface StatusBadgeProps {
 }
 
 export function StatusBadge({ status, className = "", size = "md" }: StatusBadgeProps) {
-  const styles: Record<IncidentStatus, { bg: string; text: string; border: string; label: string }> = {
+  const styles: Record<IncidentStatus, { bg: string; text: string; border: string; dot: string; label: string }> = {
     investigating: {
-      bg: "bg-red-950/40",
-      text: "text-red-400 font-medium",
-      border: "border-red-800/60",
+      bg: "bg-[#FBF1F1]",
+      text: "text-[#C94F4F] font-medium",
+      border: "border-[#E8BABA]",
+      dot: "bg-[#C94F4F]",
       label: "Investigating",
     },
     identified: {
-      bg: "bg-amber-950/40",
-      text: "text-amber-300 font-medium",
-      border: "border-amber-800/60",
+      bg: "bg-[#FCF6ED]",
+      text: "text-[#C58B43] font-medium",
+      border: "border-[#E8D3B6]",
+      dot: "bg-[#C58B43]",
       label: "Identified",
     },
     monitoring: {
-      bg: "bg-cyan-950/40",
-      text: "text-cyan-300 font-medium",
-      border: "border-cyan-800/50",
+      bg: "bg-[#F7F3EC]",
+      text: "text-[#8C7752] font-medium",
+      border: "border-[#E0D5C3]",
+      dot: "bg-[#B8A17A]",
       label: "Monitoring",
     },
     resolved: {
-      bg: "bg-emerald-950/40",
-      text: "text-emerald-400 font-medium",
-      border: "border-emerald-800/50",
+      bg: "bg-[#EAF2EC]",
+      text: "text-[#267B5B] font-medium",
+      border: "border-[#BFD8C6]",
+      dot: "bg-[#267B5B]",
       label: "Resolved",
     },
   };
@@ -40,13 +44,9 @@ export function StatusBadge({ status, className = "", size = "md" }: StatusBadge
 
   return (
     <span
-      className={`inline-flex items-center gap-1.5 font-mono uppercase tracking-wider rounded-md border ${current.bg} ${current.text} ${current.border} ${sizeClasses} ${className}`}
+      className={`inline-flex items-center gap-1.5 font-mono uppercase tracking-wider rounded border ${current.bg} ${current.text} ${current.border} ${sizeClasses} ${className}`}
     >
-      <span
-        className={`w-1.5 h-1.5 rounded-full ${
-          status === "resolved" ? "bg-emerald-400" : status === "investigating" ? "bg-red-400 animate-pulse" : "bg-amber-400"
-        }`}
-      />
+      <span className={`w-1.5 h-1.5 rounded-full ${current.dot}`} />
       {current.label}
     </span>
   );

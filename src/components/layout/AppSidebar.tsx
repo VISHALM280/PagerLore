@@ -18,7 +18,6 @@ import {
   Network,
   ChevronLeft,
   ChevronRight,
-  ExternalLink,
 } from "lucide-react";
 
 export function AppSidebar() {
@@ -26,86 +25,27 @@ export function AppSidebar() {
   const [collapsed, setCollapsed] = useState(false);
 
   const navItems = [
-    {
-      title: "Command Center",
-      href: "/command",
-      icon: LayoutDashboard,
-      badge: null,
-    },
-    {
-      title: "Active Incidents",
-      href: "/incidents",
-      icon: AlertTriangle,
-      badge: "1",
-      badgeColor: "bg-red-500/20 text-red-400 border border-red-500/40",
-    },
-    {
-      title: "Incident History",
-      href: "/incidents?filter=history",
-      icon: History,
-      badge: null,
-    },
-    {
-      title: "AI Investigation",
-      href: "/investigate",
-      icon: BrainCircuit,
-      badge: "AI",
-      badgeColor: "bg-cyan-500/20 text-cyan-300 border border-cyan-500/30",
-    },
-    {
-      title: "Memory Vault",
-      href: "/vault",
-      icon: Database,
-      badge: "Hindsight",
-      badgeColor: "bg-cyan-950/70 text-cyan-400 border border-cyan-800/60 font-mono",
-    },
-    {
-      title: "Post-Mortems",
-      href: "/postmortems",
-      icon: FileText,
-      badge: null,
-    },
-    {
-      title: "Service Topology",
-      href: "/topology",
-      icon: Network,
-      badge: null,
-    },
-    {
-      title: "Runbooks",
-      href: "/runbooks",
-      icon: BookOpen,
-      badge: null,
-    },
-    {
-      title: "Analytics",
-      href: "/analytics",
-      icon: BarChart3,
-      badge: null,
-    },
-    {
-      title: "Demo Theatre",
-      href: "/theatre",
-      icon: Tv,
-      badge: "LIVE",
-      badgeColor: "bg-purple-950/80 text-purple-300 border border-purple-700/50",
-    },
-    {
-      title: "Settings",
-      href: "/settings",
-      icon: Settings,
-      badge: null,
-    },
+    { title: "Overview", href: "/command", icon: LayoutDashboard, badge: null },
+    { title: "Active Incidents", href: "/incidents", icon: AlertTriangle, badge: "1", badgeColor: "bg-[#FAF0F0] text-[#C94F4F] border border-[#E8BABA]" },
+    { title: "Incident History", href: "/incidents?filter=history", icon: History, badge: null },
+    { title: "AI Investigation", href: "/investigate", icon: BrainCircuit, badge: null },
+    { title: "Memory Vault", href: "/vault", icon: Database, badge: "Hindsight", badgeColor: "bg-[#EAF2EC] text-[#267B5B] border border-[#BFD8C6]" },
+    { title: "Post-Mortems", href: "/postmortems", icon: FileText, badge: null },
+    { title: "Service Topology", href: "/topology", icon: Network, badge: null },
+    { title: "Runbooks", href: "/runbooks", icon: BookOpen, badge: null },
+    { title: "Analytics", href: "/analytics", icon: BarChart3, badge: null },
+    { title: "Demo Theatre", href: "/theatre", icon: Tv, badge: "Benchmark", badgeColor: "bg-[#F7F3EC] text-[#8C7752] border border-[#E0D5C3]" },
+    { title: "Settings", href: "/settings", icon: Settings, badge: null },
   ];
 
   return (
     <aside
-      className={`relative z-40 bg-[#090d16] border-r border-[#1c263c] flex flex-col transition-all duration-300 select-none ${
-        collapsed ? "w-20" : "w-64"
+      className={`relative z-40 bg-[#FFFFFF] border-r border-[#E9E8DF] flex flex-col transition-all duration-200 select-none ${
+        collapsed ? "w-16" : "w-56"
       }`}
     >
       {/* Top Header / Logo */}
-      <div className="h-16 flex items-center px-4 border-b border-[#1c263c] justify-between">
+      <div className="h-14 flex items-center px-4 border-b border-[#E9E8DF] justify-between">
         {!collapsed ? (
           <Logo size="sm" showWordmark={true} />
         ) : (
@@ -113,15 +53,15 @@ export function AppSidebar() {
         )}
         <button
           onClick={() => setCollapsed(!collapsed)}
-          className="p-1.5 rounded-lg bg-[#0e1524] text-slate-400 hover:text-cyan-300 border border-[#1e2d4a] hover:border-cyan-500/50 transition-colors"
+          className="p-1 rounded bg-[#F8F7F2] text-[#788579] hover:text-[#25352D] border border-[#E9E8DF] transition-colors"
           title={collapsed ? "Expand sidebar" : "Collapse sidebar"}
         >
-          {collapsed ? <ChevronRight className="w-3.5 h-3.5" /> : <ChevronLeft className="w-3.5 h-3.5" />}
+          {collapsed ? <ChevronRight className="w-3 h-3" /> : <ChevronLeft className="w-3 h-3" />}
         </button>
       </div>
 
-      {/* Navigation Links */}
-      <nav className="flex-1 overflow-y-auto px-3 py-4 space-y-1">
+      {/* Nav List */}
+      <nav className="flex-1 overflow-y-auto px-2.5 py-4 space-y-0.5">
         {navItems.map((item) => {
           const isActive =
             item.href === "/command"
@@ -136,16 +76,16 @@ export function AppSidebar() {
             <Link
               key={item.title}
               href={item.href}
-              className={`flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium transition-all group ${
+              className={`flex items-center gap-2.5 px-2.5 py-2 rounded text-xs font-medium transition-all group ${
                 isActive
-                  ? "bg-gradient-to-r from-cyan-950/70 to-slate-900/60 text-cyan-300 border border-cyan-800/60 shadow-[0_0_15px_rgba(0,240,255,0.1)]"
-                  : "text-slate-400 hover:text-slate-200 hover:bg-[#0e1524] border border-transparent"
+                  ? "bg-[#EAF2EC] text-[#194B38] font-semibold shadow-subtle"
+                  : "text-[#788579] hover:text-[#25352D] hover:bg-[#F8F7F2]"
               } ${collapsed ? "justify-center" : ""}`}
               title={collapsed ? item.title : undefined}
             >
               <Icon
-                className={`w-4 h-4 flex-shrink-0 transition-transform group-hover:scale-110 ${
-                  isActive ? "text-cyan-400" : "text-slate-400 group-hover:text-cyan-300"
+                className={`w-3.5 h-3.5 flex-shrink-0 ${
+                  isActive ? "text-[#267B5B]" : "text-[#788579] group-hover:text-[#25352D]"
                 }`}
               />
               {!collapsed && (
@@ -153,8 +93,8 @@ export function AppSidebar() {
                   <span className="truncate">{item.title}</span>
                   {item.badge && (
                     <span
-                      className={`text-[9px] px-1.5 py-0.2 rounded font-mono font-medium uppercase tracking-wider ${
-                        item.badgeColor || "bg-slate-800 text-slate-300"
+                      className={`text-[9px] px-1.5 py-0.2 rounded font-mono font-medium ${
+                        item.badgeColor || "bg-[#F1F0E9] text-[#788579]"
                       }`}
                     >
                       {item.badge}
@@ -167,29 +107,20 @@ export function AppSidebar() {
         })}
       </nav>
 
-      {/* Bottom Card / System Status */}
+      {/* Bottom Memory Status */}
       {!collapsed ? (
-        <div className="p-3 m-3 rounded-xl bg-[#0e1524] border border-[#1e2d4a]">
-          <div className="flex items-center justify-between mb-1.5">
-            <span className="text-[10px] font-mono uppercase tracking-wider text-slate-400">
-              Hindsight Engine
-            </span>
-            <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
+        <div className="p-3 m-3 rounded-lg bg-[#F8F7F2] border border-[#E9E8DF] text-xs">
+          <div className="flex items-center justify-between text-[10px] font-mono text-[#788579] mb-1">
+            <span>Hindsight Engine</span>
+            <span className="w-1.5 h-1.5 rounded-full bg-[#267B5B]" />
           </div>
-          <p className="text-[11px] text-slate-300 font-sans leading-snug">
-            Persistent memory active across 4 historical incidents.
+          <p className="text-[11px] text-[#25352D] font-sans leading-snug">
+            Persistent incident bank active with verified rules.
           </p>
-          <Link
-            href="/theatre"
-            className="mt-2.5 flex items-center justify-center gap-1.5 w-full py-1.5 rounded-lg bg-cyan-950/80 hover:bg-cyan-900/80 border border-cyan-700/50 text-[11px] font-mono text-cyan-300 transition-colors"
-          >
-            <span>Launch Theatre</span>
-            <ExternalLink className="w-3 h-3" />
-          </Link>
         </div>
       ) : (
-        <div className="p-2 text-center border-t border-[#1c263c]">
-          <span className="inline-block w-2.5 h-2.5 rounded-full bg-cyan-400 animate-pulse" title="Hindsight Active" />
+        <div className="p-2 text-center border-t border-[#E9E8DF]">
+          <span className="inline-block w-2 h-2 rounded-full bg-[#267B5B]" title="Hindsight Active" />
         </div>
       )}
     </aside>

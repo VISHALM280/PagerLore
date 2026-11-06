@@ -25,15 +25,15 @@ export function MemoryGraph({ memories, onSelectMemory, selectedMemoryId }: Memo
   });
 
   return (
-    <div className="rounded-2xl bg-[#080d17] border border-[#1c263c] p-6 shadow-2xl relative overflow-hidden">
-      <div className="flex items-center justify-between border-b border-[#1c263c] pb-3 mb-4">
+    <div className="rounded-2xl bg-white border border-[#E9E8DF] p-6 shadow-sm relative overflow-hidden">
+      <div className="flex items-center justify-between border-b border-[#E9E8DF] pb-3 mb-4">
         <div className="flex items-center gap-2">
-          <Database className="w-4 h-4 text-cyan-400" />
-          <h3 className="text-xs font-bold text-slate-100 font-mono uppercase tracking-wider">
+          <Database className="w-4 h-4 text-[#267B5B]" />
+          <h3 className="text-xs font-bold text-[#25352D] font-mono uppercase tracking-wider">
             Hindsight Memory Knowledge Graph
           </h3>
         </div>
-        <span className="text-[11px] font-mono text-slate-500">
+        <span className="text-[11px] font-mono text-[#788579]">
           {memories.length} Retained Incident Nodes · Click to inspect provenance
         </span>
       </div>
@@ -41,12 +41,12 @@ export function MemoryGraph({ memories, onSelectMemory, selectedMemoryId }: Memo
       <div className="w-full h-[360px] relative flex items-center justify-center">
         <svg className="w-full h-full" viewBox="0 0 500 360">
           {/* Central Hindsight Bank Node */}
-          <circle cx="250" cy="180" r="38" fill="#0d182b" stroke="#00f0ff" strokeWidth="2" className="shadow-[0_0_20px_#00f0ff]" />
-          <circle cx="250" cy="180" r="48" fill="none" stroke="#00f0ff" strokeWidth="0.8" strokeDasharray="3 3" className="animate-spin" />
-          <text x="250" y="176" textAnchor="middle" fill="#00f0ff" fontSize="9" fontFamily="monospace" fontWeight="bold">
+          <circle cx="250" cy="180" r="38" fill="#EAF2EC" stroke="#267B5B" strokeWidth="2" />
+          <circle cx="250" cy="180" r="48" fill="none" stroke="#267B5B" strokeWidth="1" strokeDasharray="3 3" opacity="0.6" />
+          <text x="250" y="176" textAnchor="middle" fill="#194B38" fontSize="9" fontFamily="monospace" fontWeight="bold">
             HINDSIGHT
           </text>
-          <text x="250" y="190" textAnchor="middle" fill="#94a3b8" fontSize="8" fontFamily="monospace">
+          <text x="250" y="190" textAnchor="middle" fill="#788579" fontSize="8" fontFamily="monospace">
             BANK
           </text>
 
@@ -60,9 +60,9 @@ export function MemoryGraph({ memories, onSelectMemory, selectedMemoryId }: Memo
                   y1="180"
                   x2={node.cx}
                   y2={node.cy}
-                  stroke={isSelected ? "#00f0ff" : "#1e2e4a"}
+                  stroke={isSelected ? "#267B5B" : "#E9E8DF"}
                   strokeWidth={isSelected ? 2 : 1}
-                  strokeDasharray={node.type === "experience" ? undefined : "2 2"}
+                  strokeDasharray={node.type === "experience" ? undefined : "3 3"}
                 />
               </g>
             );
@@ -83,7 +83,7 @@ export function MemoryGraph({ memories, onSelectMemory, selectedMemoryId }: Memo
                     cy={node.cy}
                     r="24"
                     fill="none"
-                    stroke="#00f0ff"
+                    stroke="#267B5B"
                     strokeWidth="1.5"
                     strokeDasharray="2 2"
                   />
@@ -94,19 +94,19 @@ export function MemoryGraph({ memories, onSelectMemory, selectedMemoryId }: Memo
                   r="18"
                   fill={
                     node.type === "experience"
-                      ? "#122036"
+                      ? "#EAF2EC"
                       : node.type === "observation"
-                      ? "#1e1728"
-                      : "#11261d"
+                      ? "#FBF7EE"
+                      : "#F1F0E9"
                   }
                   stroke={
                     isSelected
-                      ? "#00f0ff"
+                      ? "#267B5B"
                       : node.type === "experience"
-                      ? "#38bdf8"
+                      ? "#267B5B"
                       : node.type === "observation"
-                      ? "#a855f7"
-                      : "#10b981"
+                      ? "#B8A17A"
+                      : "#788579"
                   }
                   strokeWidth={isSelected ? 2.5 : 1.5}
                   className="transition-transform group-hover:scale-110"
@@ -115,7 +115,7 @@ export function MemoryGraph({ memories, onSelectMemory, selectedMemoryId }: Memo
                   x={node.cx}
                   y={node.cy + 3}
                   textAnchor="middle"
-                  fill="#ffffff"
+                  fill="#25352D"
                   fontSize="8"
                   fontFamily="monospace"
                   fontWeight="bold"
@@ -126,9 +126,10 @@ export function MemoryGraph({ memories, onSelectMemory, selectedMemoryId }: Memo
                   x={node.cx}
                   y={node.cy + 30}
                   textAnchor="middle"
-                  fill={isSelected ? "#00f0ff" : "#94a3b8"}
+                  fill={isSelected ? "#267B5B" : "#788579"}
                   fontSize="9"
                   fontFamily="monospace"
+                  fontWeight={isSelected ? "bold" : "normal"}
                 >
                   {node.service || "core"}
                 </text>
@@ -138,20 +139,21 @@ export function MemoryGraph({ memories, onSelectMemory, selectedMemoryId }: Memo
         </svg>
       </div>
 
-      <div className="flex items-center justify-center gap-6 pt-3 border-t border-[#162136] text-[11px] font-mono text-slate-400">
+      <div className="flex items-center justify-center gap-6 pt-3 border-t border-[#E9E8DF] text-[11px] font-mono text-[#788579]">
         <span className="flex items-center gap-1.5">
-          <span className="w-2.5 h-2.5 rounded-full bg-cyan-400" />
+          <span className="w-2.5 h-2.5 rounded-full bg-[#267B5B]" />
           <span>Experience (Post-Mortem Resolution)</span>
         </span>
         <span className="flex items-center gap-1.5">
-          <span className="w-2.5 h-2.5 rounded-full bg-purple-400" />
+          <span className="w-2.5 h-2.5 rounded-full bg-[#B8A17A]" />
           <span>Observation (Diagnostic Behavior)</span>
         </span>
         <span className="flex items-center gap-1.5">
-          <span className="w-2.5 h-2.5 rounded-full bg-emerald-400" />
+          <span className="w-2.5 h-2.5 rounded-full bg-[#788579]" />
           <span>World (Architectural Standard)</span>
         </span>
       </div>
     </div>
   );
 }
+

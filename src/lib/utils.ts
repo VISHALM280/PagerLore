@@ -30,3 +30,4 @@ export function formatDuration(seconds: number): string {
   const remMinutes = minutes % 60;
   return `${hours}h ${remMinutes}m`;
 }
+

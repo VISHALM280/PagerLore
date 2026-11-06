@@ -174,3 +174,4 @@ export async function runInvestigation(
     investigation_duration_ms: Date.now() - startTime + 420,
   };
 }
+

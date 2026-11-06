@@ -1,6 +1,5 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  darkMode: ["class"],
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -9,60 +8,58 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        background: "#07090e",
-        surface: "#0d111c",
-        "surface-elevated": "#121826",
-        "surface-highlight": "#192237",
-        border: "#1c263c",
-        "border-glow": "#263553",
-        cyan: {
-          glow: "#00f0ff",
-          bright: "#22d3ee",
-          muted: "#0891b2",
+        // Main Warm Ivory & Editorial Neutral Palette
+        ivory: {
+          DEFAULT: "#F8F7F2", // Main background
+          surface: "#FFFFFF", // Primary content surfaces
+          neutral: "#F1F0E9", // Light neutral surface / cards
+          border: "#E9E8DF",  // Crisp subtle borders & separators
+          subtle: "#FAF9F5",
         },
-        icy: {
-          blue: "#38bdf8",
-          subtle: "#60a5fa",
+        // Editorial Deep Ink Typography
+        ink: {
+          DEFAULT: "#25352D", // Main text
+          secondary: "#788579", // Secondary text
+          muted: "#9A9C91", // Muted text
+          dark: "#141D19",
         },
-        obsidian: "#030407",
-        graphite: "#161d2f",
-        slate: {
-          muted: "#64748b",
-          subtle: "#94a3b8",
-          light: "#cbd5e1",
+        // Primary Accent: Emerald
+        emerald: {
+          DEFAULT: "#267B5B", // Primary accent
+          dark: "#194B38",    // Dark emerald for active/hover states
+          soft: "#EAF2EC",    // Soft emerald background badge/pills
+          subtle: "#D9E8DD",
+          border: "#BFD8C6",
         },
-        amber: {
-          warn: "#f59e0b",
-          glow: "#fbbf24",
+        // Secondary Accent: Muted Gold
+        gold: {
+          DEFAULT: "#B8A17A", // Secondary accent
+          light: "#F7F3EC",
+          border: "#E0D5C3",
+          dark: "#8C7752",
         },
-        crit: {
-          red: "#ef4444",
-          glow: "#f87171",
+        // Status Indicators
+        status: {
+          critical: "#C94F4F",    // Critical incident (SEV-1)
+          "critical-bg": "#FBF1F1",
+          "critical-border": "#E8BABA",
+          warning: "#C58B43",     // Warning / SEV-2
+          "warning-bg": "#FCF6ED",
+          "warning-border": "#E8D3B6",
+          success: "#267B5B",     // Success
+          "success-bg": "#EAF2EC",
         },
       },
       fontFamily: {
-        sans: ["var(--font-inter)", "system-ui", "-apple-system", "sans-serif"],
-        mono: ["var(--font-mono)", "JetBrains Mono", "Courier New", "monospace"],
+        sans: ["var(--font-sans)", "Inter", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "sans-serif"],
+        editorial: ["var(--font-editorial)", "Georgia", "Cambria", "serif"],
+        mono: ["var(--font-mono)", "JetBrains Mono", "SFMono-Regular", "Menlo", "monospace"],
       },
-      animation: {
-        "pulse-subtle": "pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite",
-        "stream-flow": "stream 20s linear infinite",
-        "radar-sweep": "radar 4s linear infinite",
-        "glow-slow": "glow 4s ease-in-out infinite alternate",
-      },
-      keyframes: {
-        stream: {
-          "0%": { transform: "translateY(0)" },
-          "100%": { transform: "translateY(-50%)" },
-        },
-        radar: {
-          "0%": { transform: "rotate(0deg)" },
-          "100%": { transform: "rotate(360deg)" },
-        },
-        glow: {
-          "0%": { opacity: "0.4", filter: "drop-shadow(0 0 10px rgba(0, 240, 255, 0.3))" },
-          "100%": { opacity: "0.8", filter: "drop-shadow(0 0 25px rgba(0, 240, 255, 0.7))" },
-        },
+      boxShadow: {
+        subtle: "0 1px 3px rgba(37, 53, 45, 0.04), 0 1px 2px rgba(37, 53, 45, 0.02)",
+        editorial: "0 4px 20px -2px rgba(37, 53, 45, 0.06), 0 2px 6px -1px rgba(37, 53, 45, 0.03)",
+        card: "0 0 0 1px #E9E8DF, 0 1px 3px rgba(37, 53, 45, 0.03)",
+        elevated: "0 12px 32px -4px rgba(37, 53, 45, 0.08), 0 4px 12px -2px rgba(37, 53, 45, 0.04)",
       },
     },
   },

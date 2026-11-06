@@ -1,127 +1,99 @@
 "use client";
 
 import React from "react";
-import { AlertCircle, Clock, Search, HelpCircle, Flame, ServerCrash } from "lucide-react";
+import { Clock, AlertCircle, FileSearch, RefreshCw } from "lucide-react";
 
 export function ProblemSection() {
-  const painPoints = [
-    {
-      time: "02:14 AM — 6 Months Ago",
-      title: "HikariCP Connection Pool Saturation",
-      service: "payments-service",
-      symptom: "HTTP 500 errors spike to 24%. p95 latency exceeds 3000ms after config change.",
-      engineerReaction: "On-call engineer spends 85 minutes reading raw logs, rebooting pods, guessing at DB lock contention, and searching disconnected Slack channels.",
-      resolution: "Finally discovers HikariCP maxLifetime was 30m while pgBouncer dropped connections at 10m.",
-      memoryStored: "Lost in a forgotten Notion doc. No automated retrieval.",
-      status: "pain",
-    },
-    {
-      time: "03:42 AM — Tonight",
-      title: "Identical Timeout Asymmetry Recurred",
-      service: "payments-service",
-      symptom: "v2.8.1 changes connection parameters. Immediate HTTP 500 spike and pool lockup.",
-      engineerReaction: "A DIFFERENT engineer is on call. They start from a blank slate. They repeat the exact same failed diagnostic steps.",
-      resolution: "The company pays another 90 minutes of outage downtime and abandoned customer carts.",
-      memoryStored: "Without PagerLore, your team's hard-won experience resets on every shift rotation.",
-      status: "critical",
-    },
-  ];
-
   return (
-    <section id="problem" className="relative py-28 bg-[#05070b] border-t border-[#161f33] overflow-hidden">
-      {/* Background ambient lighting */}
-      <div className="absolute top-1/2 left-0 w-96 h-96 bg-red-950/15 rounded-full blur-[100px] pointer-events-none" />
-
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="problem" className="relative py-28 bg-[#FFFFFF] border-t border-[#E9E8DF]">
+      <div className="max-w-6xl mx-auto px-6 sm:px-8">
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-950/40 border border-red-800/40 text-red-400 text-xs font-mono uppercase tracking-wider mb-4">
-            <Flame className="w-3.5 h-3.5" />
-            <span>The Production Amnesia Cycle</span>
+        <div className="max-w-2xl mb-16">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FCF6ED] border border-[#E8D3B6] text-[#C58B43] text-xs font-mono uppercase tracking-wider mb-4">
+            <span>The Reality of Production Outages</span>
           </div>
-          <h2 className="text-3xl sm:text-5xl font-bold text-white tracking-tight leading-tight">
-            Same failures. <br />
-            <span className="text-red-400">Different nights.</span>
+          <h2 className="text-4xl sm:text-5xl font-bold tracking-tight text-[#25352D] leading-tight">
+            Teams solve the <br />
+            <span className="italic font-serif font-normal text-[#C58B43]">same failures twice.</span>
           </h2>
-          <p className="mt-4 text-base text-slate-400 leading-relaxed">
-            When production breaks, engineering teams repeatedly diagnose the same failure modes from scratch.
-            Post-mortems are filed away in wikis, while on-call engineers search Slack at 3 AM hoping someone remembers what worked.
+          <p className="mt-4 text-base text-[#788579] leading-relaxed">
+            When an outage strikes at 3 AM, the investigation usually begins from a blank page. The engineers who resolved the same failure six months ago have changed teams or shift rotations, and the post-mortem lives in a forgotten document.
           </p>
         </div>
 
-        {/* Before / After Timeline Comparison */}
+        {/* Editorial Split Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
-          {painPoints.map((item, idx) => (
-            <div
-              key={idx}
-              className={`relative rounded-2xl p-6 sm:p-8 flex flex-col justify-between transition-all ${
-                item.status === "critical"
-                  ? "bg-[#0f1422] border-2 border-red-500/40 shadow-[0_0_30px_rgba(239,68,68,0.15)]"
-                  : "bg-[#0b0f1a] border border-[#1c263c]"
-              }`}
-            >
-              <div>
-                <div className="flex items-center justify-between mb-4">
-                  <span className="text-xs font-mono text-slate-400 flex items-center gap-1.5">
-                    <Clock className="w-3.5 h-3.5 text-slate-500" />
-                    {item.time}
-                  </span>
-                  <span
-                    className={`text-[10px] font-mono px-2 py-0.5 rounded font-semibold uppercase ${
-                      item.status === "critical"
-                        ? "bg-red-900/60 text-red-300 border border-red-700/60"
-                        : "bg-slate-800 text-slate-300"
-                    }`}
-                  >
-                    {item.service}
-                  </span>
-                </div>
-
-                <h3 className="text-xl font-bold text-slate-100 mb-2">{item.title}</h3>
-
-                <div className="p-3 rounded-lg bg-[#07090e] border border-slate-800/80 mb-4 font-mono text-xs text-red-300/90 leading-relaxed">
-                  <span className="text-slate-500">Symptom: </span>
-                  {item.symptom}
-                </div>
-
-                <div className="space-y-3 text-xs text-slate-300 leading-relaxed mb-6">
-                  <div className="flex items-start gap-2.5">
-                    <HelpCircle className="w-4 h-4 text-amber-400 flex-shrink-0 mt-0.5" />
-                    <div>
-                      <strong className="text-slate-200">The On-Call Experience: </strong>
-                      {item.engineerReaction}
-                    </div>
-                  </div>
-
-                  <div className="flex items-start gap-2.5">
-                    <Search className="w-4 h-4 text-cyan-400 flex-shrink-0 mt-0.5" />
-                    <div>
-                      <strong className="text-slate-200">Resolution Finding: </strong>
-                      {item.resolution}
-                    </div>
-                  </div>
-                </div>
+          {/* Card 1: Six Months Ago */}
+          <div className="rounded-xl bg-[#F8F7F2] border border-[#E9E8DF] p-8 flex flex-col justify-between">
+            <div>
+              <div className="flex items-center justify-between text-xs font-mono text-[#788579] pb-3 border-b border-[#E9E8DF] mb-5">
+                <span className="flex items-center gap-1.5">
+                  <Clock className="w-3.5 h-3.5 text-[#B8A17A]" />
+                  <span>02:14 AM — First Occurrence</span>
+                </span>
+                <span className="text-[#25352D] font-semibold">INC-2024-089</span>
               </div>
 
-              <div
-                className={`p-3 rounded-xl text-xs font-mono ${
-                  item.status === "critical"
-                    ? "bg-red-950/40 border border-red-800/60 text-red-300"
-                    : "bg-slate-900/60 border border-slate-800 text-slate-400"
-                }`}
-              >
-                ⚠️ {item.memoryStored}
+              <h3 className="text-xl font-bold text-[#25352D] mb-3">
+                HikariCP Connection Pool Saturation
+              </h3>
+
+              <p className="text-xs text-[#788579] leading-relaxed mb-6 font-sans">
+                A configuration mismatch between HikariCP&apos;s connection lifetime (30m) and upstream pgBouncer&apos;s idle timeout (10m) drops connections silently, pinning database worker threads.
+              </p>
+
+              <div className="space-y-3 font-mono text-xs">
+                <div className="p-3 rounded bg-[#FFFFFF] border border-[#E9E8DF]">
+                  <div className="text-[10px] uppercase text-[#788579] mb-0.5">Triage Experience</div>
+                  <div className="text-[#25352D]">85 minutes spent debugging query plans, thread dumps, and database locks.</div>
+                </div>
+                <div className="p-3 rounded bg-[#FFFFFF] border border-[#E9E8DF]">
+                  <div className="text-[10px] uppercase text-[#788579] mb-0.5">Post-Incident Record</div>
+                  <div className="text-[#788579]">Filed into a static wiki page. No automated retrieval at runtime.</div>
+                </div>
               </div>
             </div>
-          ))}
-        </div>
 
-        {/* Bottom Callout */}
-        <div className="mt-12 text-center p-6 rounded-2xl bg-[#090d18] border border-[#1e2d4a] max-w-3xl mx-auto">
-          <p className="text-sm text-slate-300 font-sans">
-            Every incident is an expensive masterclass in how your system breaks.
-            <span className="text-cyan-400 font-semibold"> PagerLore ensures your engineering organization retains the lesson forever.</span>
-          </p>
+            <div className="mt-6 pt-4 border-t border-[#E9E8DF] text-[11px] font-mono text-[#788579]">
+              Outcome: Lesson documented, but not connected to runtime systems.
+            </div>
+          </div>
+
+          {/* Card 2: Tonight */}
+          <div className="rounded-xl bg-[#FFFFFF] border-2 border-[#E8D3B6] p-8 flex flex-col justify-between shadow-editorial">
+            <div>
+              <div className="flex items-center justify-between text-xs font-mono text-[#C58B43] pb-3 border-b border-[#E8D3B6] mb-5 font-semibold">
+                <span className="flex items-center gap-1.5">
+                  <RefreshCw className="w-3.5 h-3.5 text-[#C58B43]" />
+                  <span>03:42 AM — Tonight</span>
+                </span>
+                <span>INC-2024-142 (Active)</span>
+              </div>
+
+              <h3 className="text-xl font-bold text-[#25352D] mb-3">
+                Identical Timeout Asymmetry Recurred
+              </h3>
+
+              <p className="text-xs text-[#788579] leading-relaxed mb-6 font-sans">
+                Deployment v2.8.1 inadvertently modified timeout thresholds. A different engineer on call sees the exact same PSQLException error signature.
+              </p>
+
+              <div className="space-y-3 font-mono text-xs">
+                <div className="p-3 rounded bg-[#FCF6ED] border border-[#E8D3B6]">
+                  <div className="text-[10px] uppercase text-[#C58B43] mb-0.5 font-semibold">The Cost of Amnesia</div>
+                  <div className="text-[#25352D]">Without persistent memory, the team repeats the exact same failed diagnostic hypotheses.</div>
+                </div>
+                <div className="p-3 rounded bg-[#EAF2EC] border border-[#BFD8C6]">
+                  <div className="text-[10px] uppercase text-[#267B5B] mb-0.5 font-semibold">With PagerLore</div>
+                  <div className="text-[#194B38]">Recalls the exact resolution from INC-089 in 12s, cutting MTTR by 68%.</div>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-6 pt-4 border-t border-[#E8D3B6] text-[11px] font-mono text-[#267B5B] font-semibold">
+              Result: The engineering team leverages previous experience automatically.
+            </div>
+          </div>
         </div>
       </div>
     </section>

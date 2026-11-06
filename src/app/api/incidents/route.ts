@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { DataStore } from "@/lib/data/store";
 import { Incident } from "@/lib/types/incident";
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
   try {
     const incidents = DataStore.getIncidents();
@@ -65,3 +67,4 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
+

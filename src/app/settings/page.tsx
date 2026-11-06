@@ -80,7 +80,7 @@ export default function SettingsPage() {
   };
 
   return (
-    <div className="flex min-h-screen bg-[#07090e]">
+    <div className="flex min-h-screen bg-[#F8F7F2]">
       <AppSidebar />
       <div className="flex-1 flex flex-col min-w-0">
         <AppHeader onOpenCommandPalette={() => setCmdOpen(true)} />
@@ -88,34 +88,34 @@ export default function SettingsPage() {
 
         <main className="flex-1 p-6 lg:p-8 max-w-4xl w-full mx-auto space-y-6">
           <div>
-            <div className="flex items-center gap-2 text-xs font-mono text-cyan-400 mb-1">
+            <div className="flex items-center gap-2 text-xs font-mono text-[#267B5B] mb-1 font-semibold">
               <Settings className="w-4 h-4" />
               <span>SYSTEM CONFIGURATION</span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
+            <h1 className="text-2xl sm:text-3xl font-bold text-[#25352D] tracking-tight">
               Platform & Hindsight Settings
             </h1>
-            <p className="text-xs sm:text-sm text-slate-400 mt-1">
+            <p className="text-xs sm:text-sm text-[#788579] mt-1">
               Configure remote Vectorize Hindsight API connectivity, verify credentials, and manage demo state.
             </p>
           </div>
 
           {/* Hindsight Connection Card */}
-          <div className="rounded-2xl bg-[#090e18] border border-[#1c263c] p-6 shadow-xl space-y-5">
-            <div className="flex items-center justify-between border-b border-[#1c263c] pb-3">
+          <div className="rounded-2xl bg-white border border-[#E9E8DF] p-6 shadow-sm space-y-5">
+            <div className="flex items-center justify-between border-b border-[#E9E8DF] pb-3">
               <div className="flex items-center gap-2">
-                <Database className="w-4 h-4 text-cyan-400" />
-                <h3 className="text-sm font-bold text-white font-mono uppercase tracking-wider">
+                <Database className="w-4 h-4 text-[#267B5B]" />
+                <h3 className="text-sm font-bold text-[#25352D] font-mono uppercase tracking-wider">
                   Hindsight Persistent Memory Service
                 </h3>
               </div>
               <span
-                className={`text-[10px] font-mono px-2.5 py-0.5 rounded-full font-bold uppercase ${
+                className={`text-[10px] font-mono px-3 py-1 rounded-full font-bold uppercase ${
                   status?.connected
                     ? status?.is_demo_mode
-                      ? "bg-cyan-950 text-cyan-300 border border-cyan-700/60"
-                      : "bg-emerald-950 text-emerald-300 border border-emerald-700/60"
-                    : "bg-red-950 text-red-300 border border-red-700/60"
+                      ? "bg-[#EAF2EC] text-[#267B5B] border border-[#267B5B]/30"
+                      : "bg-[#EAF2EC] text-[#267B5B] border border-[#267B5B]/30"
+                    : "bg-[#FDF2F2] text-[#C94F4F] border border-[#C94F4F]/30"
                 }`}
               >
                 {status?.is_demo_mode ? "LOCAL DEMO MODE" : "CONNECTED (LIVE)"}
@@ -124,41 +124,41 @@ export default function SettingsPage() {
 
             <div className="space-y-4 text-xs font-mono">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="p-3 rounded-xl bg-[#0e1524] border border-[#1e2d4a]">
-                  <span className="text-slate-500 uppercase text-[10px] block mb-1">Target Memory Bank</span>
-                  <div className="text-cyan-300 font-bold">{status?.bank_id || "pagerlore-production-bank"}</div>
+                <div className="p-3.5 rounded-xl bg-[#F8F7F2] border border-[#E9E8DF]">
+                  <span className="text-[#788579] uppercase text-[10px] block mb-1">Target Memory Bank</span>
+                  <div className="text-[#267B5B] font-bold">{status?.bank_id || "pagerlore-production-bank"}</div>
                 </div>
 
-                <div className="p-3 rounded-xl bg-[#0e1524] border border-[#1e2d4a]">
-                  <span className="text-slate-500 uppercase text-[10px] block mb-1">API Endpoint</span>
-                  <div className="text-slate-300 font-bold truncate">{status?.api_url || "https://api.hindsight.vectorize.io"}</div>
+                <div className="p-3.5 rounded-xl bg-[#F8F7F2] border border-[#E9E8DF]">
+                  <span className="text-[#788579] uppercase text-[10px] block mb-1">API Endpoint</span>
+                  <div className="text-[#25352D] font-bold truncate">{status?.api_url || "https://api.hindsight.vectorize.io"}</div>
                 </div>
               </div>
 
-              <div className="p-3.5 rounded-xl bg-[#070b14] border border-[#162136] text-slate-300 font-sans leading-relaxed">
-                <div className="font-mono text-[10px] text-cyan-400 uppercase font-semibold mb-1">
+              <div className="p-3.5 rounded-xl bg-[#F8F7F2] border border-[#E9E8DF] text-[#25352D] font-sans leading-relaxed">
+                <div className="font-mono text-[10px] text-[#267B5B] uppercase font-semibold mb-1">
                   Active Mode Information
                 </div>
                 {status?.message || "Operating with persistent memory bank."}
               </div>
 
               {testResult && (
-                <div className="p-3 rounded-xl bg-cyan-950/40 border border-cyan-800/60 text-cyan-200 text-xs">
+                <div className="p-3.5 rounded-xl bg-[#EAF2EC] border border-[#267B5B]/30 text-[#194B38] text-xs">
                   {testResult}
                 </div>
               )}
 
               <div className="flex items-center justify-between pt-2">
-                <span className="text-[11px] text-slate-500">
+                <span className="text-[11px] text-[#788579]">
                   Environment variables: HINDSIGHT_API_KEY, HINDSIGHT_API_URL, HINDSIGHT_BANK_ID
                 </span>
 
                 <button
                   onClick={handleTestConnection}
                   disabled={testing}
-                  className="px-4 py-2 rounded-xl bg-[#121a2c] hover:bg-[#18233a] border border-cyan-800/50 text-cyan-300 text-xs font-mono flex items-center gap-2 transition-colors"
+                  className="px-4 py-2 rounded-xl bg-[#267B5B] hover:bg-[#194B38] text-white text-xs font-mono font-semibold flex items-center gap-2 transition-colors shadow-sm"
                 >
-                  <RefreshCw className={`w-3.5 h-3.5 ${testing ? "animate-spin text-cyan-400" : ""}`} />
+                  <RefreshCw className={`w-3.5 h-3.5 ${testing ? "animate-spin text-white" : ""}`} />
                   <span>{testing ? "Testing..." : "Test Health & Ping"}</span>
                 </button>
               </div>
@@ -166,20 +166,20 @@ export default function SettingsPage() {
           </div>
 
           {/* Demo Reset Card for Judges & Reviewers */}
-          <div className="rounded-2xl bg-[#090e18] border border-[#1c263c] p-6 shadow-xl space-y-4">
-            <div className="flex items-center gap-2 border-b border-[#1c263c] pb-3">
-              <RotateCcw className="w-4 h-4 text-amber-400" />
-              <h3 className="text-sm font-bold text-white font-mono uppercase tracking-wider">
+          <div className="rounded-2xl bg-white border border-[#E9E8DF] p-6 shadow-sm space-y-4">
+            <div className="flex items-center gap-2 border-b border-[#E9E8DF] pb-3">
+              <RotateCcw className="w-4 h-4 text-[#C58B43]" />
+              <h3 className="text-sm font-bold text-[#25352D] font-mono uppercase tracking-wider">
                 Demo Environment Management
               </h3>
             </div>
 
-            <p className="text-xs text-slate-300 leading-relaxed font-sans">
-              Need to repeat the evaluation or video recording from the start? Resetting the demo reinstates active SEV-1 incident <strong className="text-red-400 font-mono">INC-2024-142</strong>, restores all 5 high-fidelity historical memories in the vault, and cleans temporary modifications.
+            <p className="text-xs text-[#788579] leading-relaxed font-sans">
+              Need to repeat the evaluation or video recording from the start? Resetting the demo reinstates active SEV-1 incident <strong className="text-[#C94F4F] font-mono">INC-2024-142</strong>, restores all 5 high-fidelity historical memories in the vault, and cleans temporary modifications.
             </p>
 
             {resetMessage && (
-              <div className="p-3 rounded-xl bg-emerald-950/40 border border-emerald-800/60 text-emerald-300 text-xs font-mono">
+              <div className="p-3.5 rounded-xl bg-[#EAF2EC] border border-[#267B5B]/30 text-[#194B38] text-xs font-mono">
                 ✓ {resetMessage}
               </div>
             )}
@@ -188,7 +188,7 @@ export default function SettingsPage() {
               <button
                 onClick={handleResetDemo}
                 disabled={resetting}
-                className="px-5 py-2.5 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 text-amber-300 text-xs font-mono font-semibold flex items-center gap-2 transition-colors disabled:opacity-50"
+                className="px-5 py-2.5 rounded-xl bg-[#FDF8F0] hover:bg-[#F8EFE3] border border-[#C58B43]/40 text-[#C58B43] text-xs font-mono font-semibold flex items-center gap-2 transition-colors disabled:opacity-50 shadow-sm"
               >
                 <RotateCcw className={`w-3.5 h-3.5 ${resetting ? "animate-spin" : ""}`} />
                 <span>{resetting ? "Resetting Environment..." : "Reset Demo to Clean Seeded State"}</span>
@@ -200,3 +200,4 @@ export default function SettingsPage() {
     </div>
   );
 }
+

@@ -101,7 +101,7 @@ export default function RunbooksPage() {
   };
 
   return (
-    <div className="flex min-h-screen bg-[#07090e]">
+    <div className="flex min-h-screen bg-[#F8F7F2]">
       <AppSidebar />
       <div className="flex-1 flex flex-col min-w-0">
         <AppHeader onOpenCommandPalette={() => setCmdOpen(true)} />
@@ -109,35 +109,35 @@ export default function RunbooksPage() {
 
         <main className="flex-1 p-6 lg:p-8 max-w-5xl w-full mx-auto space-y-6">
           <div>
-            <div className="flex items-center gap-2 text-xs font-mono text-cyan-400 mb-1">
+            <div className="flex items-center gap-2 text-xs font-mono text-[#267B5B] mb-1 font-semibold">
               <BookOpen className="w-4 h-4" />
               <span>DYNAMIC OPERATIONAL RUNBOOKS</span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
+            <h1 className="text-2xl sm:text-3xl font-bold text-[#25352D] tracking-tight">
               Verified SRE Playbooks
             </h1>
-            <p className="text-xs sm:text-sm text-slate-400 mt-1">
+            <p className="text-xs sm:text-sm text-[#788579] mt-1">
               Executable runbooks auto-updated from Hindsight post-mortems and tested production resolutions.
             </p>
           </div>
 
           <div className="space-y-6">
             {runbooks.map((rb) => (
-              <div key={rb.id} className="rounded-2xl bg-[#090e18] border border-[#1c263c] p-6 shadow-xl space-y-4">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[#1c263c] pb-3">
+              <div key={rb.id} className="rounded-2xl bg-white border border-[#E9E8DF] p-6 shadow-sm space-y-4">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[#E9E8DF] pb-3">
                   <div className="flex items-center gap-2.5">
-                    <span className="text-xs font-mono font-bold text-cyan-300 bg-cyan-950/80 px-2 py-0.5 rounded border border-cyan-800/60">
+                    <span className="text-xs font-mono font-bold text-[#267B5B] bg-[#EAF2EC] px-2.5 py-0.5 rounded-full border border-[#267B5B]/30">
                       {rb.id}
                     </span>
-                    <h3 className="text-base font-bold text-white">{rb.title}</h3>
+                    <h3 className="text-base font-bold text-[#25352D]">{rb.title}</h3>
                   </div>
-                  <span className="text-xs font-mono text-slate-400">{rb.service}</span>
+                  <span className="text-xs font-mono text-[#788579]">{rb.service}</span>
                 </div>
 
-                <div className="flex items-center gap-4 text-xs font-mono text-slate-400">
+                <div className="flex items-center gap-4 text-xs font-mono text-[#788579]">
                   <Link
                     href={`/vault`}
-                    className="flex items-center gap-1.5 text-cyan-400 hover:underline"
+                    className="flex items-center gap-1.5 text-[#267B5B] hover:underline font-semibold"
                   >
                     <Database className="w-3.5 h-3.5" />
                     <span>Memory: {rb.hindsightRef}</span>
@@ -145,7 +145,7 @@ export default function RunbooksPage() {
                   <span>·</span>
                   <Link
                     href={`/incidents/${rb.sourceIncident}`}
-                    className="hover:text-slate-200 underline"
+                    className="hover:text-[#25352D] underline"
                   >
                     Source: {rb.sourceIncident}
                   </Link>
@@ -153,13 +153,13 @@ export default function RunbooksPage() {
 
                 {/* Symptoms */}
                 <div>
-                  <div className="text-[11px] font-mono uppercase text-slate-400 mb-1.5 font-semibold">
+                  <div className="text-[11px] font-mono uppercase text-[#788579] mb-1.5 font-semibold">
                     Matching Trigger Symptoms:
                   </div>
-                  <div className="space-y-1 text-xs text-slate-300 font-sans">
+                  <div className="space-y-1 text-xs text-[#25352D] font-sans">
                     {rb.symptoms.map((s, idx) => (
                       <div key={idx} className="flex items-start gap-2">
-                        <span className="text-red-400 font-bold">›</span>
+                        <span className="text-[#C94F4F] font-bold">›</span>
                         <span>{s}</span>
                       </div>
                     ))}
@@ -168,22 +168,22 @@ export default function RunbooksPage() {
 
                 {/* Remediation Steps */}
                 <div className="space-y-2.5 pt-2">
-                  <div className="text-[11px] font-mono uppercase text-emerald-400 font-semibold">
+                  <div className="text-[11px] font-mono uppercase text-[#267B5B] font-semibold">
                     Verified Remediation Sequence:
                   </div>
                   {rb.remediationSteps.map((step) => (
-                    <div key={step.step} className="p-3 rounded-xl bg-[#060910] border border-slate-900 font-mono text-xs space-y-1.5">
-                      <div className="flex items-center justify-between text-slate-300 font-sans font-medium">
+                    <div key={step.step} className="p-3.5 rounded-xl bg-[#F8F7F2] border border-[#E9E8DF] font-mono text-xs space-y-2">
+                      <div className="flex items-center justify-between text-[#25352D] font-sans font-medium">
                         <span>Step {step.step}: {step.action}</span>
                         <button
                           onClick={() => handleCopy(step.command)}
-                          className="flex items-center gap-1 text-[11px] text-slate-400 hover:text-cyan-300 transition-colors font-mono"
+                          className="flex items-center gap-1 text-[11px] text-[#788579] hover:text-[#267B5B] transition-colors font-mono font-semibold"
                         >
-                          {copiedCmd === step.command ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+                          {copiedCmd === step.command ? <Check className="w-3 h-3 text-[#267B5B]" /> : <Copy className="w-3 h-3" />}
                           <span>{copiedCmd === step.command ? "Copied" : "Copy"}</span>
                         </button>
                       </div>
-                      <code className="text-cyan-300 block select-all bg-[#0a0f1c] p-2 rounded border border-[#141d30] text-[11px] break-all">
+                      <code className="text-[#194B38] block select-all bg-white p-2.5 rounded-lg border border-[#E9E8DF] text-[11px] font-mono font-semibold break-all">
                         {step.command}
                       </code>
                     </div>

@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { DataStore } from "@/lib/data/store";
 import { runInvestigation } from "@/lib/investigation/engine";
 
+export const dynamic = "force-dynamic";
+
 export async function POST(req: NextRequest) {
   try {
     const { incidentId, mode } = await req.json();
@@ -24,3 +26,4 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
+

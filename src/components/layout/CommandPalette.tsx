@@ -26,13 +26,13 @@ export function CommandPalette({ isOpen, onClose }: CommandPaletteProps) {
 
   const staticActions = [
     { title: "Investigate Active Incident INC-2024-142", href: "/investigate?incident=INC-2024-142", icon: BrainCircuit, cat: "Action" },
-    { title: "Memory ON vs OFF Demo Theatre", href: "/theatre", icon: Tv, cat: "Signature Demo" },
-    { title: "Inspect Memory Vault (Hindsight)", href: "/vault", icon: Database, cat: "Navigation" },
-    { title: "View Service Topology Graph", href: "/topology", icon: BrainCircuit, cat: "Navigation" },
-    { title: "View Post-Mortem Records", href: "/postmortems", icon: FileText, cat: "Navigation" },
-    { title: "Incident History & Catalog", href: "/incidents", icon: AlertTriangle, cat: "Navigation" },
+    { title: "Memory ON vs OFF Benchmark", href: "/theatre", icon: Tv, cat: "Benchmark" },
+    { title: "Memory Vault & Knowledge Graph", href: "/vault", icon: Database, cat: "Navigation" },
+    { title: "Service Topology & Fault Propagation", href: "/topology", icon: BrainCircuit, cat: "Navigation" },
+    { title: "Post-Mortem Synthesis Records", href: "/postmortems", icon: FileText, cat: "Navigation" },
+    { title: "Incident Catalog & Signals", href: "/incidents", icon: AlertTriangle, cat: "Navigation" },
     { title: "SRE Analytics & MTTR", href: "/analytics", icon: BarChart3, cat: "Navigation" },
-    { title: "Hindsight API & System Settings", href: "/settings", icon: Settings, cat: "Settings" },
+    { title: "System & Hindsight Settings", href: "/settings", icon: Settings, cat: "Settings" },
   ];
 
   useEffect(() => {
@@ -40,9 +40,6 @@ export function CommandPalette({ isOpen, onClose }: CommandPaletteProps) {
       if ((e.metaKey || e.ctrlKey) && e.key === "k") {
         e.preventDefault();
         if (isOpen) onClose();
-        else {
-          // Open parent handler
-        }
       }
       if (e.key === "Escape" && isOpen) {
         onClose();
@@ -64,32 +61,29 @@ export function CommandPalette({ isOpen, onClose }: CommandPaletteProps) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center pt-20 px-4 bg-black/80 backdrop-blur-md">
-      <div className="relative w-full max-w-xl bg-[#0d1322] border border-[#1e2d4a] rounded-xl shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-150">
-        {/* Search Input Bar */}
-        <div className="flex items-center px-4 border-b border-[#1c263c]">
-          <Search className="w-4 h-4 text-cyan-400 mr-3" />
+    <div className="fixed inset-0 z-50 flex items-start justify-center pt-20 px-4 bg-black/25 backdrop-blur-sm">
+      <div className="relative w-full max-w-lg bg-[#FFFFFF] border border-[#E9E8DF] rounded-xl shadow-elevated overflow-hidden animate-in fade-in zoom-in-95 duration-100">
+        {/* Input Bar */}
+        <div className="flex items-center px-4 border-b border-[#E9E8DF]">
+          <Search className="w-4 h-4 text-[#788579] mr-2.5" />
           <input
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Type a command, incident ID, or jump to route..."
-            className="w-full bg-transparent py-4 text-sm text-slate-100 placeholder-slate-500 focus:outline-none font-sans"
+            placeholder="Type a command or jump to page..."
+            className="w-full bg-transparent py-3.5 text-xs text-[#25352D] placeholder-[#9A9C91] focus:outline-none font-sans"
             autoFocus
           />
-          <button
-            onClick={onClose}
-            className="p-1 rounded text-slate-500 hover:text-slate-300"
-          >
-            <X className="w-4 h-4" />
+          <button onClick={onClose} className="p-1 rounded text-[#788579] hover:text-[#25352D]">
+            <X className="w-3.5 h-3.5" />
           </button>
         </div>
 
-        {/* Results List */}
-        <div className="max-h-80 overflow-y-auto p-2 space-y-1">
+        {/* Results */}
+        <div className="max-h-72 overflow-y-auto p-2 space-y-0.5">
           {filtered.length === 0 ? (
-            <div className="py-8 text-center text-xs text-slate-500">
-              No matching commands or incidents found.
+            <div className="py-8 text-center text-xs text-[#788579] font-mono">
+              No matching commands found.
             </div>
           ) : (
             filtered.map((item, idx) => {
@@ -98,26 +92,23 @@ export function CommandPalette({ isOpen, onClose }: CommandPaletteProps) {
                 <button
                   key={idx}
                   onClick={() => handleSelect(item.href)}
-                  className="w-full flex items-center justify-between p-2.5 rounded-lg text-left hover:bg-[#151f36] text-slate-300 hover:text-cyan-300 transition-colors group"
+                  className="w-full flex items-center justify-between p-2 rounded text-left hover:bg-[#F8F7F2] text-[#25352D] transition-colors group"
                 >
-                  <div className="flex items-center gap-3">
-                    <Icon className="w-4 h-4 text-slate-400 group-hover:text-cyan-400" />
+                  <div className="flex items-center gap-2.5">
+                    <Icon className="w-3.5 h-3.5 text-[#788579] group-hover:text-[#267B5B]" />
                     <span className="text-xs font-medium">{item.title}</span>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#090e18] text-slate-400 border border-slate-800">
-                      {item.cat}
-                    </span>
-                    <ArrowRight className="w-3.5 h-3.5 text-slate-600 group-hover:text-cyan-400 opacity-0 group-hover:opacity-100 transition-opacity" />
-                  </div>
+                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#F1F0E9] text-[#788579] border border-[#E9E8DF]">
+                    {item.cat}
+                  </span>
                 </button>
               );
             })
           )}
         </div>
 
-        {/* Footer shortcuts */}
-        <div className="flex items-center justify-between px-4 py-2 border-t border-[#1c263c] bg-[#090e18] text-[11px] text-slate-500 font-mono">
+        {/* Footer */}
+        <div className="flex items-center justify-between px-4 py-2 border-t border-[#E9E8DF] bg-[#F8F7F2] text-[10px] text-[#788579] font-mono">
           <span>Navigate with mouse or arrow keys</span>
           <span>ESC to close</span>
         </div>

@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "PagerLore — Memory-Powered Incident Response & Intelligence Platform",
-  description: "The next incident shouldn't start from zero. PagerLore remembers how your systems failed, recalls what actually fixed them, and helps engineering teams resolve the next production incident with the knowledge of every incident before it.",
+  title: "PagerLore — Engineering Remembers",
+  description: "PagerLore connects the knowledge of past failures with today's investigations, helping engineering teams move forward with experience rather than starting from zero.",
   icons: {
     icon: "/favicon.ico",
   },
@@ -15,8 +15,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
-      <body className="min-h-screen bg-[#07090e] text-slate-100 antialiased selection:bg-cyan-500/30 selection:text-cyan-200">
+    <html lang="en">
+      <body className="min-h-screen bg-[#F8F7F2] text-[#25352D] antialiased selection:bg-[#EAF2EC] selection:text-[#194B38]">
         {children}
       </body>
     </html>

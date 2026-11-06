@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { hindsight } from "@/lib/hindsight/client";
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
   try {
     const status = await hindsight.checkConnection();
@@ -17,3 +19,4 @@ export async function GET() {
     );
   }
 }
+

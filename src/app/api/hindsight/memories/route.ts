@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { DataStore } from "@/lib/data/store";
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
   try {
     const memories = DataStore.getMemories();
@@ -17,3 +19,4 @@ export async function GET() {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
+

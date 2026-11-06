@@ -127,44 +127,33 @@ export function TopologyCanvas() {
 
   return (
     <div className="flex flex-col lg:flex-row gap-6">
-      {/* Interactive Topology Graph Visualizer */}
-      <div className="flex-1 rounded-2xl bg-[#090e18] border border-[#1c263c] p-4 relative overflow-hidden shadow-2xl min-h-[500px]">
-        {/* Top Legend & Overlay Controls */}
-        <div className="flex items-center justify-between mb-2 px-2">
-          <div className="flex items-center gap-3 text-xs font-mono">
-            <span className="flex items-center gap-1.5 text-red-400">
-              <span className="w-2 h-2 rounded-full bg-red-400 animate-pulse" />
+      {/* SVG Topology Graph Canvas */}
+      <div className="flex-1 rounded-xl bg-[#FFFFFF] border border-[#E9E8DF] p-5 relative overflow-hidden shadow-subtle min-h-[480px]">
+        {/* Top Status */}
+        <div className="flex items-center justify-between mb-2 px-1">
+          <div className="flex items-center gap-4 text-xs font-mono">
+            <span className="flex items-center gap-1.5 text-[#C94F4F]">
+              <span className="w-2 h-2 rounded-full bg-[#C94F4F]" />
               Critical (SEV-1)
             </span>
-            <span className="flex items-center gap-1.5 text-amber-400">
-              <span className="w-2 h-2 rounded-full bg-amber-400" />
+            <span className="flex items-center gap-1.5 text-[#C58B43]">
+              <span className="w-2 h-2 rounded-full bg-[#C58B43]" />
               Degraded
             </span>
-            <span className="flex items-center gap-1.5 text-emerald-400">
-              <span className="w-2 h-2 rounded-full bg-emerald-400" />
+            <span className="flex items-center gap-1.5 text-[#267B5B]">
+              <span className="w-2 h-2 rounded-full bg-[#267B5B]" />
               Operational
             </span>
           </div>
-          <span className="text-[11px] font-mono text-slate-500">
-            Click any service node to inspect propagation
+          <span className="text-[11px] font-mono text-[#788579]">
+            Click node to inspect service health
           </span>
         </div>
 
         {/* SVG Infrastructure Graph */}
-        <div className="w-full h-[460px] relative">
-          <svg className="w-full h-full" viewBox="0 0 1000 500">
-            <defs>
-              <linearGradient id="critFlow" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor="#ef4444" stopOpacity="0.8" />
-                <stop offset="100%" stopColor="#f87171" stopOpacity="0.3" />
-              </linearGradient>
-              <linearGradient id="normFlow" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor="#00f0ff" stopOpacity="0.4" />
-                <stop offset="100%" stopColor="#38bdf8" stopOpacity="0.1" />
-              </linearGradient>
-            </defs>
-
-            {/* Service Connection Edges */}
+        <div className="w-full h-[430px] relative">
+          <svg className="w-full h-full" viewBox="0 0 1000 480">
+            {/* Edges */}
             {services.map((src) =>
               src.connections.map((targetId) => {
                 const target = services.find((s) => s.id === targetId);
@@ -178,17 +167,16 @@ export function TopologyCanvas() {
                     <path
                       d={`M ${src.x} ${src.y} C ${(src.x + target.x) / 2} ${src.y}, ${(src.x + target.x) / 2} ${target.y}, ${target.x} ${target.y}`}
                       fill="none"
-                      stroke={isCriticalPath ? "#ef4444" : "#1e2e4a"}
-                      strokeWidth={isCriticalPath ? 2.5 : 1.2}
+                      stroke={isCriticalPath ? "#C94F4F" : "#E0D5C3"}
+                      strokeWidth={isCriticalPath ? 2 : 1.2}
                       strokeDasharray={isCriticalPath ? "4 4" : undefined}
-                      className={isCriticalPath ? "animate-pulse" : ""}
                     />
                   </g>
                 );
               })
             )}
 
-            {/* Service Nodes */}
+            {/* Nodes */}
             {services.map((svc) => {
               const isSelected = svc.id === selectedService;
               const isCrit = svc.status === "critical";
@@ -200,46 +188,35 @@ export function TopologyCanvas() {
                   onClick={() => setSelectedService(svc.id)}
                   className="cursor-pointer group"
                 >
-                  {/* Halo */}
-                  {isCrit && (
-                    <circle
-                      cx={svc.x}
-                      cy={svc.y}
-                      r="36"
-                      fill="#ef4444"
-                      fillOpacity="0.15"
-                      className="animate-ping"
-                    />
-                  )}
+                  {/* Outer selection ring */}
                   {isSelected && (
                     <circle
                       cx={svc.x}
                       cy={svc.y}
-                      r="32"
+                      r="28"
                       fill="none"
-                      stroke="#00f0ff"
+                      stroke="#267B5B"
                       strokeWidth="1.5"
-                      strokeDasharray="3 3"
+                      strokeDasharray="2 2"
                     />
                   )}
 
-                  {/* Main Node Bubble */}
+                  {/* Main Bubble */}
                   <circle
                     cx={svc.x}
                     cy={svc.y}
-                    r="24"
-                    fill={isCrit ? "#1f1015" : isWarn ? "#1e180d" : "#0d1424"}
+                    r="20"
+                    fill={isCrit ? "#FAF0F0" : isWarn ? "#FCF6ED" : "#FFFFFF"}
                     stroke={
                       isCrit
-                        ? "#ef4444"
+                        ? "#C94F4F"
                         : isWarn
-                        ? "#f59e0b"
+                        ? "#C58B43"
                         : isSelected
-                        ? "#00f0ff"
-                        : "#223354"
+                        ? "#267B5B"
+                        : "#BFD8C6"
                     }
-                    strokeWidth={isSelected || isCrit ? 2.5 : 1.5}
-                    className="transition-all group-hover:scale-105"
+                    strokeWidth={isSelected || isCrit ? 2 : 1.2}
                   />
 
                   {/* Center Dot */}
@@ -247,15 +224,15 @@ export function TopologyCanvas() {
                     cx={svc.x}
                     cy={svc.y}
                     r="5"
-                    fill={isCrit ? "#ef4444" : isWarn ? "#f59e0b" : "#38bdf8"}
+                    fill={isCrit ? "#C94F4F" : isWarn ? "#C58B43" : "#267B5B"}
                   />
 
-                  {/* Node Label */}
+                  {/* Label */}
                   <text
                     x={svc.x}
-                    y={svc.y + 38}
+                    y={svc.y + 34}
                     textAnchor="middle"
-                    fill={isSelected ? "#00f0ff" : "#cbd5e1"}
+                    fill={isSelected ? "#267B5B" : "#25352D"}
                     fontSize="11"
                     fontFamily="monospace"
                     fontWeight="600"
@@ -264,9 +241,9 @@ export function TopologyCanvas() {
                   </text>
                   <text
                     x={svc.x}
-                    y={svc.y + 50}
+                    y={svc.y + 45}
                     textAnchor="middle"
-                    fill="#64748b"
+                    fill="#788579"
                     fontSize="9"
                     fontFamily="monospace"
                   >
@@ -279,113 +256,71 @@ export function TopologyCanvas() {
         </div>
       </div>
 
-      {/* Selected Node Detail Inspector */}
-      <div className="w-full lg:w-96 rounded-2xl bg-[#090e18] border border-[#1c263c] p-6 shadow-2xl flex flex-col justify-between">
+      {/* Selected Node Inspector Panel */}
+      <div className="w-full lg:w-80 rounded-xl bg-[#FFFFFF] border border-[#E9E8DF] p-6 shadow-subtle flex flex-col justify-between">
         <div>
-          <div className="flex items-center justify-between border-b border-[#1c263c] pb-3 mb-4">
+          <div className="flex items-center justify-between border-b border-[#E9E8DF] pb-3 mb-4">
             <div>
-              <span className="text-[10px] font-mono text-cyan-400 uppercase tracking-wider">
+              <span className="text-[10px] font-mono text-[#788579] uppercase tracking-wider">
                 Service Inspector
               </span>
-              <h3 className="text-lg font-bold text-slate-100">{current.name}</h3>
+              <h3 className="text-base font-bold text-[#25352D]">{current.name}</h3>
             </div>
             <span
               className={`text-[10px] font-mono px-2 py-0.5 rounded font-semibold uppercase ${
                 current.status === "critical"
-                  ? "bg-red-950 text-red-400 border border-red-800"
+                  ? "bg-[#FAF0F0] text-[#C94F4F] border border-[#E8BABA]"
                   : current.status === "warning"
-                  ? "bg-amber-950 text-amber-400 border border-amber-800"
-                  : "bg-emerald-950 text-emerald-400 border border-emerald-800"
+                  ? "bg-[#FCF6ED] text-[#C58B43] border border-[#E8D3B6]"
+                  : "bg-[#EAF2EC] text-[#267B5B] border border-[#BFD8C6]"
               }`}
             >
               {current.status}
             </span>
           </div>
 
-          {/* Metrics Panel */}
-          <div className="grid grid-cols-2 gap-3 mb-6 font-mono text-xs">
-            <div className="p-3 rounded-xl bg-[#0e1524] border border-[#1a253c]">
-              <div className="text-slate-500 text-[10px]">Error Rate</div>
-              <div
-                className={`text-base font-bold mt-1 ${
-                  current.errorRatePct > 5 ? "text-red-400" : "text-slate-200"
-                }`}
-              >
+          <div className="grid grid-cols-2 gap-3 mb-5 font-mono text-xs">
+            <div className="p-3 rounded bg-[#F8F7F2] border border-[#E9E8DF]">
+              <div className="text-[#788579] text-[10px]">Error Rate</div>
+              <div className={`text-base font-bold mt-0.5 ${current.errorRatePct > 5 ? "text-[#C94F4F]" : "text-[#25352D]"}`}>
                 {current.errorRatePct}%
               </div>
             </div>
-            <div className="p-3 rounded-xl bg-[#0e1524] border border-[#1a253c]">
-              <div className="text-slate-500 text-[10px]">p95 Latency</div>
-              <div
-                className={`text-base font-bold mt-1 ${
-                  current.p95LatencyMs > 500 ? "text-red-400" : "text-slate-200"
-                }`}
-              >
+            <div className="p-3 rounded bg-[#F8F7F2] border border-[#E9E8DF]">
+              <div className="text-[#788579] text-[10px]">p95 Latency</div>
+              <div className={`text-base font-bold mt-0.5 ${current.p95LatencyMs > 500 ? "text-[#C94F4F]" : "text-[#25352D]"}`}>
                 {current.p95LatencyMs}ms
               </div>
             </div>
-            <div className="p-3 rounded-xl bg-[#0e1524] border border-[#1a253c]">
-              <div className="text-slate-500 text-[10px]">Throughput</div>
-              <div className="text-base font-bold text-slate-200 mt-1">
-                {current.rps} rps
-              </div>
-            </div>
-            <div className="p-3 rounded-xl bg-[#0e1524] border border-[#1a253c]">
-              <div className="text-slate-500 text-[10px]">Category</div>
-              <div className="text-base font-bold text-cyan-300 mt-1 capitalize">
-                {current.category}
-              </div>
-            </div>
           </div>
 
-          {/* Active Incident Warning */}
           {current.activeIncidentId && (
-            <div className="p-3.5 rounded-xl bg-red-950/40 border border-red-800/60 mb-6">
-              <div className="flex items-center gap-2 text-xs font-mono text-red-400 font-semibold mb-1">
-                <AlertTriangle className="w-4 h-4" />
+            <div className="p-3 rounded bg-[#FAF0F0] border border-[#E8BABA] mb-5">
+              <div className="flex items-center gap-1.5 text-xs font-mono text-[#C94F4F] font-semibold mb-1">
+                <AlertTriangle className="w-3.5 h-3.5" />
                 <span>Impacted by {current.activeIncidentId}</span>
               </div>
-              <p className="text-xs text-slate-300 leading-snug">
-                HikariCP connection pool exhaustion pinning all 50 database worker threads.
+              <p className="text-xs text-[#25352D] leading-snug font-sans">
+                HikariCP connection pool exhaustion pinning database threads.
               </p>
               <Link
                 href={`/investigate?incident=${current.activeIncidentId}`}
-                className="mt-3 inline-flex items-center gap-1.5 text-xs font-mono text-cyan-300 hover:text-cyan-200 underline"
+                className="mt-2.5 inline-flex items-center gap-1 text-xs font-mono text-[#267B5B] hover:underline"
               >
-                <span>Launch AI Investigation</span>
-                <ArrowRight className="w-3.5 h-3.5" />
+                <span>Investigate Incident</span>
+                <ArrowRight className="w-3 h-3" />
               </Link>
             </div>
           )}
-
-          {/* Connected Downstreams */}
-          <div>
-            <div className="text-xs font-mono text-slate-400 mb-2">Downstream Dependencies:</div>
-            <div className="space-y-1.5">
-              {current.connections.length === 0 ? (
-                <div className="text-xs text-slate-500 font-mono">No downstream connections.</div>
-              ) : (
-                current.connections.map((conn) => (
-                  <div
-                    key={conn}
-                    className="p-2 rounded-lg bg-[#0e1524] border border-[#182338] text-xs font-mono text-slate-300 flex items-center justify-between"
-                  >
-                    <span>{conn}</span>
-                    <ArrowRight className="w-3 h-3 text-slate-500" />
-                  </div>
-                ))
-              )}
-            </div>
-          </div>
         </div>
 
-        <div className="pt-4 border-t border-[#1c263c] mt-6">
+        <div className="pt-3 border-t border-[#E9E8DF]">
           <Link
             href={`/incidents?service=${current.id}`}
-            className="w-full py-2.5 rounded-xl bg-[#12192c] hover:bg-[#1a243e] border border-cyan-800/40 text-xs font-mono text-cyan-300 flex items-center justify-center gap-2 transition-colors"
+            className="w-full py-2 rounded bg-[#F8F7F2] hover:bg-[#F1F0E9] border border-[#E9E8DF] text-xs font-mono text-[#25352D] flex items-center justify-center gap-1.5 transition-colors"
           >
-            <span>View Service Incident History</span>
-            <ArrowRight className="w-3.5 h-3.5" />
+            <span>Service Incident History</span>
+            <ArrowRight className="w-3 h-3" />
           </Link>
         </div>
       </div>

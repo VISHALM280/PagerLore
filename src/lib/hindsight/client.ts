@@ -399,3 +399,4 @@ export class HindsightClient {
 }
 
 export const hindsight = new HindsightClient();
+

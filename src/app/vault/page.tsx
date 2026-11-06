@@ -106,7 +106,7 @@ export default function MemoryVaultPage() {
   });
 
   return (
-    <div className="flex min-h-screen bg-[#07090e]">
+    <div className="flex min-h-screen bg-[#F8F7F2]">
       <AppSidebar />
       <div className="flex-1 flex flex-col min-w-0">
         <AppHeader onOpenCommandPalette={() => setCmdOpen(true)} />
@@ -117,14 +117,14 @@ export default function MemoryVaultPage() {
           {/* Header */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
-              <div className="flex items-center gap-2 text-xs font-mono text-cyan-400 mb-1">
+              <div className="flex items-center gap-2 text-xs font-mono text-[#267B5B] mb-1 font-semibold">
                 <Database className="w-4 h-4" />
                 <span>HINDSIGHT PERSISTENT MEMORY VAULT</span>
               </div>
-              <h1 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
+              <h1 className="text-2xl sm:text-3xl font-bold text-[#25352D] tracking-tight">
                 Engineering Memory & Knowledge Graph
               </h1>
-              <p className="text-xs sm:text-sm text-slate-400 mt-1">
+              <p className="text-xs sm:text-sm text-[#788579] mt-1">
                 Persistent memory bank housing historical post-mortem facts, architectural constraints, and verified resolutions.
               </p>
             </div>
@@ -132,15 +132,15 @@ export default function MemoryVaultPage() {
             <div className="flex items-center gap-3">
               <button
                 onClick={() => setReflectOpen(true)}
-                className="px-3.5 py-2 rounded-lg bg-gradient-to-r from-purple-950/80 to-cyan-950/80 hover:from-purple-900/90 hover:to-cyan-900/90 border border-purple-500/50 text-purple-300 text-xs font-mono font-medium flex items-center gap-1.5 transition-all shadow-lg"
+                className="px-3.5 py-2 rounded-xl bg-white hover:bg-[#F1F0E9] border border-[#E9E8DF] text-[#25352D] text-xs font-mono font-medium flex items-center gap-2 transition-all shadow-sm"
               >
-                <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
+                <Sparkles className="w-3.5 h-3.5 text-[#B8A17A]" />
                 <span>Hindsight REFLECT</span>
               </button>
 
               <button
                 onClick={() => setShowRetainModal(true)}
-                className="px-4 py-2 rounded-lg bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-semibold text-xs flex items-center gap-1.5 transition-all shadow-[0_0_15px_rgba(0,240,255,0.3)]"
+                className="px-4 py-2 rounded-xl bg-[#267B5B] hover:bg-[#194B38] text-white font-semibold text-xs flex items-center gap-1.5 transition-all shadow-sm"
               >
                 <Plus className="w-4 h-4" />
                 <span>Retain Knowledge</span>
@@ -149,36 +149,34 @@ export default function MemoryVaultPage() {
           </div>
 
           {/* Bank Status Banner */}
-          <div className="rounded-xl bg-[#090e18] border border-[#1c263c] p-4 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 text-xs font-mono">
+          <div className="rounded-xl bg-white border border-[#E9E8DF] p-4 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 text-xs font-mono shadow-sm">
             <div className="flex items-center gap-3">
               <span
                 className={`w-2.5 h-2.5 rounded-full ${
                   bankStatus?.connected
-                    ? bankStatus?.is_demo_mode
-                      ? "bg-cyan-400 shadow-[0_0_8px_#00f0ff]"
-                      : "bg-emerald-400 shadow-[0_0_8px_#10b981]"
-                    : "bg-amber-400"
+                    ? "bg-[#267B5B]"
+                    : "bg-[#C58B43]"
                 }`}
               />
               <div>
-                <div className="text-slate-200 font-bold">
+                <div className="text-[#25352D] font-bold">
                   Memory Bank:{" "}
-                  <span className="text-cyan-300">{bankStatus?.bank_id || "pagerlore-production-bank"}</span>
+                  <span className="text-[#267B5B]">{bankStatus?.bank_id || "pagerlore-production-bank"}</span>
                 </div>
-                <div className="text-[11px] text-slate-500 font-sans mt-0.5">
+                <div className="text-[11px] text-[#788579] font-sans mt-0.5">
                   {bankStatus?.message}
                 </div>
               </div>
             </div>
 
-            <div className="flex items-center gap-4 text-slate-400">
+            <div className="flex items-center gap-4 text-[#788579]">
               <span>
-                Total Memories: <strong className="text-white">{memories.length}</strong>
+                Total Memories: <strong className="text-[#25352D]">{memories.length}</strong>
               </span>
               <span>·</span>
               <span>
                 Mode:{" "}
-                <strong className={bankStatus?.is_demo_mode ? "text-cyan-300" : "text-emerald-400"}>
+                <strong className={bankStatus?.is_demo_mode ? "text-[#267B5B]" : "text-[#267B5B]"}>
                   {bankStatus?.is_demo_mode ? "DEMO MODE (Local Bank)" : "LIVE VECTORIZE"}
                 </strong>
               </span>
@@ -195,16 +193,16 @@ export default function MemoryVaultPage() {
           {/* Two-Column Explorer: List on Left, Deep Inspector on Right */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {/* Left 2 Cols: Searchable Memory Catalog */}
-            <div className="lg:col-span-2 rounded-2xl bg-[#090e18] border border-[#1c263c] p-6 shadow-xl space-y-4">
-              <div className="flex flex-col sm:flex-row items-center justify-between gap-3 border-b border-[#1c263c] pb-3">
+            <div className="lg:col-span-2 rounded-2xl bg-white border border-[#E9E8DF] p-6 shadow-sm space-y-4">
+              <div className="flex flex-col sm:flex-row items-center justify-between gap-3 border-b border-[#E9E8DF] pb-3">
                 <div className="relative flex-1 w-full">
-                  <Search className="w-4 h-4 text-slate-500 absolute left-3 top-2.5 pointer-events-none" />
+                  <Search className="w-4 h-4 text-[#9A9C91] absolute left-3 top-2.5 pointer-events-none" />
                   <input
                     type="text"
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                     placeholder="Search memories by keyword, entity, or service..."
-                    className="w-full bg-[#0e1524] text-xs font-sans text-slate-100 pl-9 pr-4 py-2 rounded-lg border border-[#1e2d4a] focus:outline-none focus:border-cyan-500"
+                    className="w-full bg-[#F8F7F2] text-xs font-sans text-[#25352D] pl-9 pr-4 py-2 rounded-xl border border-[#E9E8DF] focus:outline-none focus:border-[#267B5B]"
                   />
                 </div>
 
@@ -213,10 +211,10 @@ export default function MemoryVaultPage() {
                     <button
                       key={t}
                       onClick={() => setTypeFilter(t)}
-                      className={`px-2.5 py-1 text-[11px] font-mono rounded capitalize transition-colors ${
+                      className={`px-2.5 py-1 text-[11px] font-mono rounded-lg capitalize transition-colors ${
                         typeFilter === t
-                          ? "bg-cyan-950 text-cyan-300 border border-cyan-800 font-semibold"
-                          : "bg-[#0e1524] text-slate-400 hover:text-slate-200"
+                          ? "bg-[#EAF2EC] text-[#267B5B] border border-[#267B5B]/30 font-semibold"
+                          : "bg-[#F8F7F2] text-[#788579] hover:text-[#25352D]"
                       }`}
                     >
                       {t}
@@ -235,37 +233,37 @@ export default function MemoryVaultPage() {
                       onClick={() => setSelectedMemory(mem)}
                       className={`p-4 rounded-xl border transition-all cursor-pointer text-xs space-y-2 ${
                         isSelected
-                          ? "bg-[#0d1628] border-cyan-500/60 shadow-[0_0_15px_rgba(0,240,255,0.15)]"
-                          : "bg-[#0a0f1b] border-[#1a253c] hover:border-slate-700"
+                          ? "bg-[#EAF2EC] border-[#267B5B] shadow-sm"
+                          : "bg-[#F8F7F2] border-[#E9E8DF] hover:border-[#267B5B]/40 hover:bg-white"
                       }`}
                     >
                       <div className="flex items-center justify-between font-mono text-[11px]">
                         <div className="flex items-center gap-2">
-                          <span className="font-bold text-cyan-300">{mem.id}</span>
+                          <span className="font-bold text-[#194B38]">{mem.id}</span>
                           {mem.source_incident_id && (
-                            <span className="text-slate-500">
+                            <span className="text-[#788579]">
                               (src: {mem.source_incident_id})
                             </span>
                           )}
                         </div>
                         <span
-                          className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase ${
+                          className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase ${
                             mem.type === "experience"
-                              ? "bg-blue-950 text-blue-300 border border-blue-800"
+                              ? "bg-white text-[#267B5B] border border-[#267B5B]/30"
                               : mem.type === "observation"
-                              ? "bg-purple-950 text-purple-300 border border-purple-800"
-                              : "bg-emerald-950 text-emerald-300 border border-emerald-800"
+                              ? "bg-white text-[#B8A17A] border border-[#B8A17A]/30"
+                              : "bg-white text-[#788579] border border-[#E9E8DF]"
                           }`}
                         >
                           {mem.type}
                         </span>
                       </div>
 
-                      <p className="text-slate-200 font-sans leading-relaxed line-clamp-2">
+                      <p className="text-[#25352D] font-sans leading-relaxed line-clamp-2">
                         {mem.text}
                       </p>
 
-                      <div className="flex items-center justify-between text-[10px] font-mono text-slate-500 pt-1">
+                      <div className="flex items-center justify-between text-[10px] font-mono text-[#788579] pt-1">
                         <span>Service: {mem.service || "infrastructure"}</span>
                         <span>Relevance Weight: {mem.score}</span>
                       </div>
@@ -276,33 +274,33 @@ export default function MemoryVaultPage() {
             </div>
 
             {/* Right 1 Col: Selected Memory Provenance Inspector */}
-            <div className="rounded-2xl bg-[#090e18] border border-[#1c263c] p-6 shadow-xl flex flex-col justify-between">
+            <div className="rounded-2xl bg-white border border-[#E9E8DF] p-6 shadow-sm flex flex-col justify-between">
               {selectedMemory ? (
                 <div className="space-y-4 text-xs font-mono">
-                  <div className="border-b border-[#1c263c] pb-3">
-                    <span className="text-[10px] text-cyan-400 uppercase tracking-wider font-semibold">
+                  <div className="border-b border-[#E9E8DF] pb-3">
+                    <span className="text-[10px] text-[#267B5B] uppercase tracking-wider font-semibold">
                       Memory Provenance Inspector
                     </span>
-                    <h3 className="text-base font-bold text-white mt-1">
+                    <h3 className="text-base font-bold text-[#25352D] mt-1">
                       {selectedMemory.id}
                     </h3>
                   </div>
 
                   <div>
-                    <span className="text-slate-500 uppercase text-[10px] block mb-1">
+                    <span className="text-[#788579] uppercase text-[10px] block mb-1">
                       Full Extracted Knowledge Statement
                     </span>
-                    <p className="text-slate-100 font-sans leading-relaxed p-3 rounded-lg bg-[#0e1524] border border-[#1e2d4a]">
+                    <p className="text-[#25352D] font-sans leading-relaxed p-3 rounded-xl bg-[#F8F7F2] border border-[#E9E8DF]">
                       {selectedMemory.text}
                     </p>
                   </div>
 
                   {selectedMemory.resolution_action && (
                     <div>
-                      <span className="text-emerald-400 uppercase text-[10px] block mb-1 font-semibold">
+                      <span className="text-[#267B5B] uppercase text-[10px] block mb-1 font-semibold">
                         Validated Remediation
                       </span>
-                      <p className="text-slate-200 font-sans p-3 rounded-lg bg-emerald-950/30 border border-emerald-800/40">
+                      <p className="text-[#194B38] font-sans p-3 rounded-xl bg-[#EAF2EC] border border-[#267B5B]/30">
                         {selectedMemory.resolution_action}
                       </p>
                     </div>
@@ -310,14 +308,14 @@ export default function MemoryVaultPage() {
 
                   {selectedMemory.entities && selectedMemory.entities.length > 0 && (
                     <div>
-                      <span className="text-slate-500 uppercase text-[10px] block mb-1.5">
+                      <span className="text-[#788579] uppercase text-[10px] block mb-1.5">
                         Indexed Entities & Graph Relationships
                       </span>
                       <div className="flex flex-wrap gap-1.5">
                         {selectedMemory.entities.map((e, idx) => (
                           <span
                             key={idx}
-                            className="px-2 py-0.5 rounded bg-[#101828] text-cyan-300 border border-[#1d2a45] text-[10px]"
+                            className="px-2 py-0.5 rounded-md bg-[#F8F7F2] text-[#25352D] border border-[#E9E8DF] text-[10px]"
                           >
                             {e}
                           </span>
@@ -327,10 +325,10 @@ export default function MemoryVaultPage() {
                   )}
 
                   {selectedMemory.source_incident_id && (
-                    <div className="pt-3 border-t border-[#1c263c]">
+                    <div className="pt-3 border-t border-[#E9E8DF]">
                       <Link
                         href={`/incidents/${selectedMemory.source_incident_id}`}
-                        className="w-full py-2 rounded-lg bg-[#0e1628] hover:bg-[#142036] border border-cyan-800/50 text-cyan-300 text-xs font-mono flex items-center justify-center gap-1.5 transition-colors"
+                        className="w-full py-2 rounded-xl bg-[#F8F7F2] hover:bg-[#EAF2EC] border border-[#E9E8DF] text-[#25352D] hover:text-[#267B5B] text-xs font-mono flex items-center justify-center gap-1.5 transition-colors"
                       >
                         <span>View Source Incident ({selectedMemory.source_incident_id})</span>
                         <ArrowRight className="w-3.5 h-3.5" />
@@ -339,7 +337,7 @@ export default function MemoryVaultPage() {
                   )}
                 </div>
               ) : (
-                <div className="py-20 text-center text-slate-500 text-xs font-mono">
+                <div className="py-20 text-center text-[#788579] text-xs font-mono">
                   Select a memory to inspect its provenance.
                 </div>
               )}
@@ -348,15 +346,15 @@ export default function MemoryVaultPage() {
 
           {/* Modal for Manual Retain */}
           {showRetainModal && (
-            <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
-              <div className="relative w-full max-w-lg bg-[#090e18] border border-[#1e2d4a] rounded-2xl shadow-2xl p-6 space-y-4">
-                <div className="flex items-center justify-between border-b border-[#1c263c] pb-3">
-                  <h3 className="text-sm font-bold text-white font-mono uppercase tracking-wider">
+            <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
+              <div className="relative w-full max-w-lg bg-white border border-[#E9E8DF] rounded-2xl shadow-xl p-6 space-y-4">
+                <div className="flex items-center justify-between border-b border-[#E9E8DF] pb-3">
+                  <h3 className="text-sm font-bold text-[#25352D] font-mono uppercase tracking-wider">
                     Retain Knowledge into Hindsight Bank
                   </h3>
                   <button
                     onClick={() => setShowRetainModal(false)}
-                    className="text-slate-500 hover:text-slate-300"
+                    className="text-[#788579] hover:text-[#25352D]"
                   >
                     ✕
                   </button>
@@ -364,17 +362,17 @@ export default function MemoryVaultPage() {
 
                 <form onSubmit={handleManualRetain} className="space-y-4">
                   <div>
-                    <label className="block text-xs font-mono text-slate-400 mb-1">Service</label>
+                    <label className="block text-xs font-mono text-[#788579] mb-1 font-semibold">Service</label>
                     <input
                       type="text"
                       value={retainService}
                       onChange={(e) => setRetainService(e.target.value)}
-                      className="w-full bg-[#0e1524] text-xs text-slate-100 p-2.5 rounded-lg border border-[#1e2d4a] focus:outline-none focus:border-cyan-500 font-mono"
+                      className="w-full bg-[#F8F7F2] text-xs text-[#25352D] p-2.5 rounded-xl border border-[#E9E8DF] focus:outline-none focus:border-[#267B5B] font-mono"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-xs font-mono text-slate-400 mb-1">
+                    <label className="block text-xs font-mono text-[#788579] mb-1 font-semibold">
                       Verified Knowledge / Post-Mortem Rule
                     </label>
                     <textarea
@@ -383,7 +381,7 @@ export default function MemoryVaultPage() {
                       value={retainContent}
                       onChange={(e) => setRetainContent(e.target.value)}
                       placeholder="e.g. When scaling payment pods, ensure HikariCP maxLifetime is less than 540s..."
-                      className="w-full bg-[#0e1524] text-xs text-slate-100 p-3 rounded-lg border border-[#1e2d4a] focus:outline-none focus:border-cyan-500 font-sans"
+                      className="w-full bg-[#F8F7F2] text-xs text-[#25352D] p-3 rounded-xl border border-[#E9E8DF] focus:outline-none focus:border-[#267B5B] font-sans"
                     />
                   </div>
 
@@ -391,14 +389,14 @@ export default function MemoryVaultPage() {
                     <button
                       type="button"
                       onClick={() => setShowRetainModal(false)}
-                      className="px-3 py-1.5 text-xs text-slate-400"
+                      className="px-3 py-1.5 text-xs text-[#788579] hover:text-[#25352D]"
                     >
                       Cancel
                     </button>
                     <button
                       type="submit"
                       disabled={isRetaining}
-                      className="px-5 py-2 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs"
+                      className="px-5 py-2.5 rounded-xl bg-[#267B5B] hover:bg-[#194B38] text-white font-semibold text-xs shadow-sm"
                     >
                       {isRetaining ? "Retaining..." : "Retain into Bank"}
                     </button>
@@ -412,3 +410,4 @@ export default function MemoryVaultPage() {
     </div>
   );
 }
+

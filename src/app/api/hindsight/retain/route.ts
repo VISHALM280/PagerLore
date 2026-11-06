@@ -3,6 +3,8 @@ import { hindsight } from "@/lib/hindsight/client";
 import { DataStore } from "@/lib/data/store";
 import { HindsightRetainRequest } from "@/lib/hindsight/types";
 
+export const dynamic = "force-dynamic";
+
 export async function POST(req: NextRequest) {
   try {
     const body: HindsightRetainRequest = await req.json();
@@ -32,3 +34,4 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
+

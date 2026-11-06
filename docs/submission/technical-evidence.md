@@ -135,3 +135,4 @@ If `HINDSIGHT_API_KEY` is not provided or the remote host is temporarily unreach
 - **State Management:** Runtime singleton data store (`DataStore`) persists changes during the application session, allowing live retaining of post-mortems and immediate recall in subsequent investigations.
 - **Human Approval Safeguard:** PagerLore enforces a hard approval gate for production changes. AI recommendations cannot execute infrastructure changes automatically without an explicit engineer click.
 - **Known Limitation:** Real Kubernetes `kubectl` commands are simulated safely in the web interface rather than opening arbitrary production root shells.
+

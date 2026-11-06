@@ -72,3 +72,4 @@
 > *"Every outage your team experiences is expensive. But with PagerLore and Hindsight, that experience becomes a permanent asset. Your AI agents don't hallucinate generic advice, and your on-call engineers never have to start diagnosing from zero again. PagerLore: Every outage leaves a lesson. PagerLore remembers it."*
 
 **[Fade to PagerLore wordmark logo and GitHub link]**
+

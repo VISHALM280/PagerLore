@@ -121,3 +121,4 @@ export interface InvestigationResult {
   executive_summary: string;
   investigation_duration_ms: number;
 }
+

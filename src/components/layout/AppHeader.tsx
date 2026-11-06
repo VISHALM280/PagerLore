@@ -5,14 +5,10 @@ import Link from "next/link";
 import {
   Search,
   Bell,
-  SlidersHorizontal,
   ChevronDown,
   Database,
-  ShieldAlert,
-  Server,
-  Terminal,
   RotateCcw,
-  Sparkles,
+  CheckCircle2,
 } from "lucide-react";
 
 interface AppHeaderProps {
@@ -34,16 +30,15 @@ export function AppHeader({ onOpenCommandPalette }: AppHeaderProps) {
   }, []);
 
   const handleResetDemo = async () => {
-    if (confirm("Reset PagerLore demo data to clean initial state (active SEV-1 incident INC-2024-142)?")) {
+    if (confirm("Reset demo data to clean seeded state (re-triggers active SEV-1 INC-2024-142)?")) {
       setIsResetting(true);
       try {
-        const res = await fetch("/api/demo/reset", { method: "POST" });
-        const data = await res.json();
-        setResetNotice("Demo environment reset to clean seeded state.");
+        await fetch("/api/demo/reset", { method: "POST" });
+        setResetNotice("Demo environment reset.");
         setTimeout(() => {
           setResetNotice(null);
           window.location.reload();
-        }, 800);
+        }, 600);
       } catch (err) {
         console.error(err);
       } finally {
@@ -53,132 +48,110 @@ export function AppHeader({ onOpenCommandPalette }: AppHeaderProps) {
   };
 
   return (
-    <header className="h-16 border-b border-[#1c263c] bg-[#090d16]/90 backdrop-blur-md px-6 flex items-center justify-between z-30 sticky top-0">
-      {/* Left: Organization & Environment Dropdown */}
-      <div className="flex items-center gap-4">
-        <div className="flex items-center gap-2">
-          <div className="w-2 h-2 rounded-full bg-cyan-400" />
-          <span className="text-xs font-semibold uppercase tracking-wider text-slate-300">
-            Acme SRE Core
-          </span>
+    <header className="h-14 border-b border-[#E9E8DF] bg-[#FFFFFF] px-6 flex items-center justify-between z-30 sticky top-0">
+      {/* Left: Organization & Environment */}
+      <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#25352D]">
+          <span className="w-1.5 h-1.5 rounded-full bg-[#267B5B]" />
+          <span>Core Infrastructure</span>
         </div>
 
-        <span className="text-slate-700">/</span>
+        <span className="text-[#D9D7CB]">/</span>
 
-        {/* Environment Selector */}
         <div className="relative">
           <select
             value={env}
             onChange={(e) => setEnv(e.target.value)}
-            className="appearance-none bg-[#0e1524] text-xs font-mono text-cyan-300 border border-[#1e2d4a] rounded-md px-3 py-1.5 pr-7 focus:outline-none focus:border-cyan-500 cursor-pointer"
+            className="appearance-none bg-[#F8F7F2] text-xs font-mono text-[#25352D] border border-[#E9E8DF] rounded px-2.5 py-1 pr-6 focus:outline-none focus:border-[#267B5B] cursor-pointer"
           >
             <option value="production">env: production (us-east-1)</option>
             <option value="staging">env: staging (us-west-2)</option>
             <option value="eu-central">env: eu-central-1</option>
           </select>
-          <ChevronDown className="w-3.5 h-3.5 text-slate-400 absolute right-2 top-2.5 pointer-events-none" />
+          <ChevronDown className="w-3 h-3 text-[#788579] absolute right-1.5 top-2 pointer-events-none" />
         </div>
 
-        {/* Reset Demo button for judges / testers */}
         <button
           onClick={handleResetDemo}
           disabled={isResetting}
-          title="Reset seeded demo state (re-triggers INC-142)"
-          className="inline-flex items-center gap-1.5 px-2.5 py-1 text-[11px] font-mono rounded bg-slate-900 border border-slate-700/70 hover:border-cyan-500/50 text-slate-400 hover:text-cyan-300 transition-colors"
+          title="Reset seeded demo state"
+          className="inline-flex items-center gap-1.5 px-2 py-1 text-[11px] font-mono rounded bg-[#F8F7F2] border border-[#E9E8DF] hover:border-[#267B5B]/50 text-[#788579] hover:text-[#25352D] transition-colors"
         >
-          <RotateCcw className={`w-3 h-3 ${isResetting ? "animate-spin text-cyan-400" : ""}`} />
+          <RotateCcw className={`w-3 h-3 ${isResetting ? "animate-spin text-[#267B5B]" : ""}`} />
           <span>Reset Demo</span>
         </button>
 
         {resetNotice && (
-          <span className="text-xs text-emerald-400 font-mono animate-fade-in">
+          <span className="text-xs text-[#267B5B] font-mono">
             ✓ {resetNotice}
           </span>
         )}
       </div>
 
       {/* Center: Global Search & Command Palette trigger */}
-      <div className="flex-1 max-w-md mx-6">
+      <div className="flex-1 max-w-sm mx-6">
         <button
           onClick={onOpenCommandPalette}
-          className="w-full flex items-center justify-between px-3.5 py-1.5 rounded-lg bg-[#0e1524] border border-[#1c263c] text-slate-400 text-xs hover:border-slate-700 hover:text-slate-200 transition-all group"
+          className="w-full flex items-center justify-between px-3 py-1.5 rounded bg-[#F8F7F2] border border-[#E9E8DF] text-[#788579] text-xs hover:border-[#BFBCAD] hover:text-[#25352D] transition-all"
         >
-          <div className="flex items-center gap-2.5">
-            <Search className="w-3.5 h-3.5 text-slate-500 group-hover:text-cyan-400 transition-colors" />
-            <span>Search incidents, services, memories, runbooks...</span>
+          <div className="flex items-center gap-2">
+            <Search className="w-3.5 h-3.5 text-[#9A9C91]" />
+            <span>Search incidents, memories, services...</span>
           </div>
-          <kbd className="px-1.5 py-0.5 text-[10px] font-mono bg-[#162035] text-slate-400 rounded border border-[#223150]">
+          <kbd className="px-1.5 py-0.2 text-[10px] font-mono bg-[#FFFFFF] text-[#788579] rounded border border-[#E9E8DF]">
             ⌘K
           </kbd>
         </button>
       </div>
 
-      {/* Right: Hindsight Bank Status + Notifications + Profile */}
-      <div className="flex items-center gap-4">
-        {/* Hindsight Bank Status Indicator */}
+      {/* Right: Hindsight Status + Alerts + Profile */}
+      <div className="flex items-center gap-3.5">
         <Link
           href="/vault"
           title="Inspect Hindsight Memory Bank"
-          className="flex items-center gap-2 px-2.5 py-1 rounded-md bg-[#0d1627] border border-[#1e2f50] hover:border-cyan-500/60 transition-all text-xs font-mono"
+          className="flex items-center gap-2 px-2.5 py-1 rounded bg-[#EAF2EC] border border-[#BFD8C6] text-xs font-mono text-[#194B38] hover:bg-[#D9E8DD] transition-colors"
         >
-          <Database className="w-3.5 h-3.5 text-cyan-400" />
-          <span className="text-slate-300 hidden sm:inline">Bank:</span>
-          <span className="text-cyan-300 font-medium truncate max-w-[140px]">
-            {bankStatus?.bank_id || "pagerlore-production-bank"}
+          <Database className="w-3 h-3 text-[#267B5B]" />
+          <span className="hidden sm:inline">Bank:</span>
+          <span className="font-semibold truncate max-w-[120px]">
+            {bankStatus?.bank_id || "production-bank"}
           </span>
-          <span
-            className={`w-2 h-2 rounded-full ${
-              bankStatus?.connected
-                ? bankStatus?.is_demo_mode
-                  ? "bg-cyan-400 shadow-[0_0_8px_#00f0ff]"
-                  : "bg-emerald-400 shadow-[0_0_8px_#10b981]"
-                : "bg-amber-400"
-            }`}
-          />
+          <span className="w-1.5 h-1.5 rounded-full bg-[#267B5B]" />
         </Link>
 
         {/* Notifications */}
         <div className="relative">
           <button
             onClick={() => setShowNotifications(!showNotifications)}
-            className="relative p-2 rounded-lg bg-[#0e1524] border border-[#1c263c] text-slate-400 hover:text-slate-200 hover:border-slate-700 transition-colors"
+            className="p-1.5 rounded bg-[#FFFFFF] border border-[#E9E8DF] text-[#788579] hover:text-[#25352D]"
             aria-label="View notifications"
           >
-            <Bell className="w-4 h-4" />
-            <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full animate-ping" />
-            <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full" />
+            <Bell className="w-3.5 h-3.5" />
           </button>
 
           {showNotifications && (
-            <div className="absolute right-0 mt-2 w-80 bg-[#0d1322] border border-[#1c263c] rounded-xl shadow-2xl p-4 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
-              <div className="flex items-center justify-between border-b border-[#1c263c] pb-2 mb-3">
-                <span className="text-xs font-semibold text-slate-200 uppercase font-mono tracking-wider">
-                  Live SRE Alerts
+            <div className="absolute right-0 mt-2 w-80 bg-[#FFFFFF] border border-[#E9E8DF] rounded-xl shadow-elevated p-4 z-50">
+              <div className="flex items-center justify-between border-b border-[#E9E8DF] pb-2 mb-3">
+                <span className="text-xs font-semibold text-[#25352D] uppercase font-mono tracking-wider">
+                  Active Alerts
                 </span>
-                <span className="text-[10px] font-mono text-red-400 bg-red-950/80 px-2 py-0.5 rounded border border-red-800/50">
+                <span className="text-[10px] font-mono text-[#C94F4F] bg-[#FAF0F0] px-1.5 py-0.5 rounded border border-[#E8BABA]">
                   1 Critical
                 </span>
               </div>
-              <div className="space-y-2.5">
-                <Link
-                  href="/incidents/INC-2024-142"
-                  onClick={() => setShowNotifications(false)}
-                  className="block p-2.5 rounded-lg bg-[#141d33] hover:bg-[#1a2542] border border-red-800/50 transition-colors"
-                >
-                  <div className="flex items-center justify-between text-[11px] font-mono text-red-400 mb-1">
-                    <span>SEV-1 ACTIVE</span>
-                    <span>14m ago</span>
-                  </div>
-                  <p className="text-xs text-slate-200 font-medium line-clamp-2">
-                    Payments Service 500 Internal Server Errors & Latency Surge following v2.8.1
-                  </p>
-                </Link>
-
-                <div className="p-2 rounded bg-[#090e18] border border-slate-800 text-[11px] text-slate-400">
-                  <span className="text-cyan-400 font-mono">Hindsight Engine:</span> 4 historical
-                  resolution patterns indexed in vault.
+              <Link
+                href="/incidents/INC-2024-142"
+                onClick={() => setShowNotifications(false)}
+                className="block p-2.5 rounded bg-[#FAF0F0] border border-[#E8BABA] hover:bg-[#F5E6E6] transition-colors"
+              >
+                <div className="flex items-center justify-between text-[11px] font-mono text-[#C94F4F] mb-1 font-semibold">
+                  <span>SEV-1 ACTIVE</span>
+                  <span>14m ago</span>
                 </div>
-              </div>
+                <p className="text-xs text-[#25352D] font-medium line-clamp-2">
+                  Payments Service 500 Internal Server Errors & Latency Surge following v2.8.1
+                </p>
+              </Link>
             </div>
           )}
         </div>
@@ -186,21 +159,14 @@ export function AppHeader({ onOpenCommandPalette }: AppHeaderProps) {
         {/* User Avatar */}
         <Link
           href="/settings"
-          className="flex items-center gap-2.5 pl-2 border-l border-[#1c263c] group"
+          className="flex items-center gap-2 pl-2 border-l border-[#E9E8DF]"
         >
-          <img
-            src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80"
-            alt="Marcus Vance"
-            className="w-7 h-7 rounded-full object-cover border border-cyan-500/50 group-hover:border-cyan-400 transition-colors"
-          />
-          <div className="hidden lg:flex flex-col text-left">
-            <span className="text-xs font-medium text-slate-200 group-hover:text-cyan-300 leading-tight">
-              Marcus Vance
-            </span>
-            <span className="text-[10px] font-mono text-slate-400 leading-tight">
-              Lead SRE
-            </span>
+          <div className="w-6 h-6 rounded-full bg-[#EAF2EC] text-[#267B5B] border border-[#BFD8C6] flex items-center justify-center font-bold text-[10px] font-mono">
+            MV
           </div>
+          <span className="text-xs font-medium text-[#25352D] hidden lg:inline">
+            Marcus Vance
+          </span>
         </Link>
       </div>
     </header>

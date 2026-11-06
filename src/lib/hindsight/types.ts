@@ -98,3 +98,4 @@ export interface HindsightBankStatus {
   health: "healthy" | "degraded" | "disconnected" | "demo_active";
   message: string;
 }
+
