@@ -3,11 +3,17 @@
 import React from "react";
 import Link from "next/link";
 import { ArrowRight, Database } from "lucide-react";
+import { MagneticLink } from "@/components/common/MagneticButton";
 
 export function FinalCtaSection() {
   return (
-    <section className="relative py-28 bg-[#FFFFFF] border-t border-[#E9E8DF] text-center">
-      <div className="max-w-4xl mx-auto px-6 sm:px-8">
+    <section className="relative py-28 bg-[#FFFFFF] border-t border-[#E9E8DF] text-center overflow-hidden">
+      {/* Subtle background radial glow */}
+      <div className="absolute inset-0 pointer-events-none flex items-center justify-center">
+        <div className="w-[600px] h-[300px] bg-[#EAF2EC]/50 rounded-full blur-3xl opacity-70" />
+      </div>
+
+      <div className="relative z-10 max-w-4xl mx-auto px-6 sm:px-8">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#EAF2EC] border border-[#BFD8C6] text-[#267B5B] text-xs font-mono uppercase tracking-wider mb-6">
           <Database className="w-3.5 h-3.5" />
           <span>Persistent Reliability Intelligence</span>
@@ -24,20 +30,20 @@ export function FinalCtaSection() {
         </p>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <Link
+          <MagneticLink
             href="/command"
             className="w-full sm:w-auto px-8 py-3.5 rounded bg-[#267B5B] hover:bg-[#194B38] text-white font-medium text-xs flex items-center justify-center gap-2.5 shadow-subtle transition-all duration-150"
           >
             <span>Enter Command Center</span>
             <ArrowRight className="w-3.5 h-3.5" />
-          </Link>
+          </MagneticLink>
 
-          <Link
+          <MagneticLink
             href="/theatre"
             className="w-full sm:w-auto px-6 py-3.5 rounded bg-[#F8F7F2] hover:bg-[#F1F0E9] text-[#25352D] border border-[#E9E8DF] font-medium text-xs flex items-center justify-center gap-2 transition-all duration-150 font-mono"
           >
             <span>Run Memory Benchmark</span>
-          </Link>
+          </MagneticLink>
         </div>
 
         <div className="mt-16 flex items-center justify-center gap-6 text-xs font-mono text-[#9A9C91]">

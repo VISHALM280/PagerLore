@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Logo } from "../common/Logo";
 import { LivePulse } from "../common/LivePulse";
 import { ArrowRight, Menu, X } from "lucide-react";
+import { MagneticLink } from "../common/MagneticButton";
 
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -20,7 +21,7 @@ export function Navbar() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-200 ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled
           ? "bg-[#FFFFFF]/95 backdrop-blur-md border-b border-[#E9E8DF] py-3.5 shadow-subtle"
           : "bg-transparent py-5"
@@ -35,25 +36,28 @@ export function Navbar() {
           <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-[#788579]">
             <Link
               href="#problem"
-              className="hover:text-[#25352D] transition-colors"
+              className="relative py-1 hover:text-[#25352D] transition-colors group"
             >
-              The Problem
+              <span>The Problem</span>
+              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#267B5B] transition-all duration-200 group-hover:w-full" />
             </Link>
             <Link
-              href="#solution"
-              className="hover:text-[#25352D] transition-colors"
+              href="#how-it-works"
+              className="relative py-1 hover:text-[#25352D] transition-colors group"
             >
-              How It Works
+              <span>How It Works</span>
+              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#267B5B] transition-all duration-200 group-hover:w-full" />
             </Link>
             <Link
               href="/vault"
-              className="hover:text-[#25352D] transition-colors"
+              className="relative py-1 hover:text-[#25352D] transition-colors group"
             >
-              Memory Vault
+              <span>Memory Vault</span>
+              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#267B5B] transition-all duration-200 group-hover:w-full" />
             </Link>
             <Link
               href="/theatre"
-              className="text-[#267B5B] hover:text-[#194B38] font-mono text-xs px-2.5 py-1 rounded bg-[#EAF2EC] border border-[#BFD8C6] transition-colors"
+              className="text-[#267B5B] hover:text-[#194B38] font-mono text-xs px-2.5 py-1 rounded bg-[#EAF2EC] border border-[#BFD8C6] transition-all hover:shadow-sm"
             >
               Memory Benchmark
             </Link>
@@ -63,13 +67,13 @@ export function Navbar() {
           <div className="hidden md:flex items-center gap-4">
             <LivePulse status="active_incident" label="INC-142 Active" />
 
-            <Link
+            <MagneticLink
               href="/command"
               className="inline-flex items-center gap-2 px-4 py-2 text-xs font-semibold rounded bg-[#267B5B] hover:bg-[#194B38] text-white shadow-subtle transition-all duration-150"
             >
               <span>Command Center</span>
               <ArrowRight className="w-3.5 h-3.5" />
-            </Link>
+            </MagneticLink>
           </div>
 
           {/* Mobile menu button */}
@@ -96,7 +100,7 @@ export function Navbar() {
               The Problem
             </Link>
             <Link
-              href="#solution"
+              href="#how-it-works"
               onClick={() => setMobileMenuOpen(false)}
               className="text-[#25352D] py-1.5"
             >

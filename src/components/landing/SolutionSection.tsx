@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { Database, CheckCircle2, ArrowRight, BookOpen, Layers } from "lucide-react";
+import { TiltCard } from "@/components/common/TiltCard";
 
 export function SolutionSection() {
   const [activeStep, setActiveStep] = useState(2); // default to Historical Recall
@@ -90,8 +91,8 @@ export function SolutionSection() {
           })}
         </div>
 
-        {/* Selected Step Detail Panel */}
-        <div className="rounded-xl bg-[#FFFFFF] border border-[#E9E8DF] p-8 shadow-editorial">
+        {/* Selected Step Detail Panel with Subtle 3D Perspective */}
+        <TiltCard maxTilt={3} className="rounded-xl bg-[#FFFFFF] border border-[#E9E8DF] p-8 shadow-editorial">
           <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-8">
             <div className="space-y-3 flex-1">
               <div className="text-xs font-mono text-[#267B5B] font-semibold uppercase tracking-wider">
@@ -118,7 +119,7 @@ export function SolutionSection() {
               </div>
             </div>
           </div>
-        </div>
+        </TiltCard>
       </div>
     </section>
   );
