@@ -33,7 +33,7 @@ export default function DemoTheatrePage() {
             </div>
           </div>
 
-          <MemoryComparisonView incidentId="INC-2024-142" />
+          <MemoryComparisonView initialIncidentId="INC-2024-142" />
         </main>
       </div>
     </div>

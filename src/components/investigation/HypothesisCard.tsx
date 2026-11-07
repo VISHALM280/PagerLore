@@ -42,8 +42,13 @@ export function HypothesisCard({ hypothesis, rank }: HypothesisCardProps) {
 
         {/* Confidence Gauge */}
         <div className="flex items-center gap-2">
+          {hypothesis.confidence_label && (
+            <span className="text-[9px] font-mono uppercase px-1.5 py-0.5 rounded bg-[#F1F0E9] text-[#788579] font-semibold border border-[#E9E8DF]">
+              {hypothesis.confidence_label}
+            </span>
+          )}
           <span className="text-xs font-mono text-[#788579]">Confidence:</span>
-          <div className="w-24 h-2 bg-[#F1F0E9] rounded-full overflow-hidden border border-[#E9E8DF]">
+          <div className="w-20 h-2 bg-[#F1F0E9] rounded-full overflow-hidden border border-[#E9E8DF]">
             <div
               className={`h-full rounded-full ${isHighConfidence ? "bg-[#267B5B]" : "bg-[#9A9C91]"}`}
               style={{ width: `${hypothesis.confidence_pct}%` }}

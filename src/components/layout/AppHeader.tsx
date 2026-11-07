@@ -9,7 +9,9 @@ import {
   Database,
   RotateCcw,
   CheckCircle2,
+  Sparkles,
 } from "lucide-react";
+import { JudgeDemoGuide } from "../common/JudgeDemoGuide";
 
 interface AppHeaderProps {
   onOpenCommandPalette?: () => void;
@@ -21,6 +23,7 @@ export function AppHeader({ onOpenCommandPalette }: AppHeaderProps) {
   const [showNotifications, setShowNotifications] = useState(false);
   const [isResetting, setIsResetting] = useState(false);
   const [resetNotice, setResetNotice] = useState<string | null>(null);
+  const [showJudgeTour, setShowJudgeTour] = useState(false);
 
   useEffect(() => {
     fetch("/api/hindsight/status")
@@ -30,11 +33,15 @@ export function AppHeader({ onOpenCommandPalette }: AppHeaderProps) {
   }, []);
 
   const handleResetDemo = async () => {
-    if (confirm("Reset demo data to clean seeded state (re-triggers active SEV-1 INC-2024-142)?")) {
+    if (confirm("Reset demo data while preserving newly retained Hindsight memories?")) {
       setIsResetting(true);
       try {
-        await fetch("/api/demo/reset", { method: "POST" });
-        setResetNotice("Demo environment reset.");
+        await fetch("/api/demo/reset", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ preserveRetainedMemories: true }),
+        });
+        setResetNotice("Demo environment reset (memories preserved).");
         setTimeout(() => {
           setResetNotice(null);
           window.location.reload();
@@ -48,45 +55,43 @@ export function AppHeader({ onOpenCommandPalette }: AppHeaderProps) {
   };
 
   return (
-    <header className="h-14 border-b border-[#E9E8DF] bg-[#FFFFFF] px-6 flex items-center justify-between z-30 sticky top-0">
-      {/* Left: Organization & Environment */}
-      <div className="flex items-center gap-3">
-        <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#25352D]">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#267B5B]" />
-          <span>Core Infrastructure</span>
-        </div>
+    <>
+      <JudgeDemoGuide isOpen={showJudgeTour} onClose={() => setShowJudgeTour(false)} />
+      <header className="h-14 border-b border-[#E9E8DF] bg-[#FFFFFF] px-6 flex items-center justify-between z-30 sticky top-0">
+        {/* Left: Organization & Environment */}
+        <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#25352D]">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#267B5B]" />
+            <span>Core Infrastructure</span>
+          </div>
 
-        <span className="text-[#D9D7CB]">/</span>
+          <span className="text-[#D9D7CB]">/</span>
 
-        <div className="relative">
-          <select
-            value={env}
-            onChange={(e) => setEnv(e.target.value)}
-            className="appearance-none bg-[#F8F7F2] text-xs font-mono text-[#25352D] border border-[#E9E8DF] rounded px-2.5 py-1 pr-6 focus:outline-none focus:border-[#267B5B] cursor-pointer"
+          <button
+            onClick={() => setShowJudgeTour(true)}
+            className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-mono font-bold rounded-lg bg-[#EAF2EC] text-[#267B5B] border border-[#BFD8C6] hover:bg-[#267B5B] hover:text-white transition-all shadow-xs"
+            title="Open Judge Tour Guide (3-5 min evaluation flow)"
           >
-            <option value="production">env: production (us-east-1)</option>
-            <option value="staging">env: staging (us-west-2)</option>
-            <option value="eu-central">env: eu-central-1</option>
-          </select>
-          <ChevronDown className="w-3 h-3 text-[#788579] absolute right-1.5 top-2 pointer-events-none" />
+            <Sparkles className="w-3.5 h-3.5" />
+            <span>Judge Demo Tour (3–5m)</span>
+          </button>
+
+          <button
+            onClick={handleResetDemo}
+            disabled={isResetting}
+            title="Reset seeded demo state while keeping retained memories"
+            className="inline-flex items-center gap-1.5 px-2 py-1 text-[11px] font-mono rounded bg-[#F8F7F2] border border-[#E9E8DF] hover:border-[#267B5B]/50 text-[#788579] hover:text-[#25352D] transition-colors"
+          >
+            <RotateCcw className={`w-3 h-3 ${isResetting ? "animate-spin text-[#267B5B]" : ""}`} />
+            <span>Reset Demo</span>
+          </button>
+
+          {resetNotice && (
+            <span className="text-xs text-[#267B5B] font-mono">
+              ✓ {resetNotice}
+            </span>
+          )}
         </div>
-
-        <button
-          onClick={handleResetDemo}
-          disabled={isResetting}
-          title="Reset seeded demo state"
-          className="inline-flex items-center gap-1.5 px-2 py-1 text-[11px] font-mono rounded bg-[#F8F7F2] border border-[#E9E8DF] hover:border-[#267B5B]/50 text-[#788579] hover:text-[#25352D] transition-colors"
-        >
-          <RotateCcw className={`w-3 h-3 ${isResetting ? "animate-spin text-[#267B5B]" : ""}`} />
-          <span>Reset Demo</span>
-        </button>
-
-        {resetNotice && (
-          <span className="text-xs text-[#267B5B] font-mono">
-            ✓ {resetNotice}
-          </span>
-        )}
-      </div>
 
       {/* Center: Global Search & Command Palette trigger */}
       <div className="flex-1 max-w-sm mx-6">
@@ -170,5 +175,6 @@ export function AppHeader({ onOpenCommandPalette }: AppHeaderProps) {
         </Link>
       </div>
     </header>
+    </>
   );
 }

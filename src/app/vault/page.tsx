@@ -31,6 +31,7 @@ export default function MemoryVaultPage() {
   const [selectedMemory, setSelectedMemory] = useState<RecallResult | null>(null);
   const [search, setSearch] = useState("");
   const [typeFilter, setTypeFilter] = useState<string>("ALL");
+  const [serviceFilter, setServiceFilter] = useState<string>("ALL");
   const [loading, setLoading] = useState(true);
 
   // Manual retain state
@@ -102,7 +103,8 @@ export default function MemoryVaultPage() {
       m.id.toLowerCase().includes(search.toLowerCase()) ||
       (m.service && m.service.toLowerCase().includes(search.toLowerCase()));
     const matchesType = typeFilter === "ALL" || m.type === typeFilter;
-    return matchesSearch && matchesType;
+    const matchesService = serviceFilter === "ALL" || (m.service && m.service.toLowerCase() === serviceFilter.toLowerCase());
+    return matchesSearch && matchesType && matchesService;
   });
 
   return (
@@ -206,20 +208,34 @@ export default function MemoryVaultPage() {
                   />
                 </div>
 
-                <div className="flex items-center gap-1.5 overflow-x-auto w-full sm:w-auto">
-                  {["ALL", "experience", "observation", "world"].map((t) => (
-                    <button
-                      key={t}
-                      onClick={() => setTypeFilter(t)}
-                      className={`px-2.5 py-1 text-[11px] font-mono rounded-lg capitalize transition-colors ${
-                        typeFilter === t
-                          ? "bg-[#EAF2EC] text-[#267B5B] border border-[#267B5B]/30 font-semibold"
-                          : "bg-[#F8F7F2] text-[#788579] hover:text-[#25352D]"
-                      }`}
-                    >
-                      {t}
-                    </button>
-                  ))}
+                <div className="flex items-center gap-2 overflow-x-auto w-full sm:w-auto">
+                  <select
+                    value={serviceFilter}
+                    onChange={(e) => setServiceFilter(e.target.value)}
+                    className="bg-[#F8F7F2] text-xs font-mono text-[#25352D] border border-[#E9E8DF] rounded-xl px-2.5 py-1.5 focus:outline-none focus:border-[#267B5B] cursor-pointer"
+                  >
+                    <option value="ALL">All Services</option>
+                    <option value="payments-service">payments-service</option>
+                    <option value="order-processor">order-processor</option>
+                    <option value="auth-service">auth-service</option>
+                    <option value="database-cluster">database-cluster</option>
+                  </select>
+
+                  <div className="flex items-center gap-1">
+                    {["ALL", "experience", "observation", "world"].map((t) => (
+                      <button
+                        key={t}
+                        onClick={() => setTypeFilter(t)}
+                        className={`px-2 py-1 text-[11px] font-mono rounded-lg capitalize transition-colors ${
+                          typeFilter === t
+                            ? "bg-[#EAF2EC] text-[#267B5B] border border-[#267B5B]/30 font-semibold"
+                            : "bg-[#F8F7F2] text-[#788579] hover:text-[#25352D]"
+                        }`}
+                      >
+                        {t}
+                      </button>
+                    ))}
+                  </div>
                 </div>
               </div>
 

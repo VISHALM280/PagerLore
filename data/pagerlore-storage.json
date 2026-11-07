@@ -1,0 +1,848 @@
+{
+  "incidents": [
+    {
+      "id": "INC-2024-142",
+      "title": "Payments Service 500 Internal Server Errors & Latency Surge following v2.8.1",
+      "description": "Checkout endpoint /v1/checkout/charge experiencing severe HTTP 500 error spikes and p95 latency exceeding 2.8s immediately following deployment v2.8.1. Database connection pool saturation alarms firing.",
+      "severity": "SEV-1",
+      "status": "investigating",
+      "affected_service": "payments-service",
+      "environment": "production",
+      "started_at": "2026-11-07T07:42:42.695Z",
+      "duration_minutes": 14,
+      "assigned_engineer": {
+        "name": "Marcus Vance",
+        "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80",
+        "email": "m.vance@pagerlore.internal",
+        "role": "Lead SRE Engineer"
+      },
+      "metrics": {
+        "error_rate_pct": 28.4,
+        "p95_latency_ms": 2840,
+        "request_rate_rps": 420,
+        "db_connection_pool_saturation_pct": 98.6,
+        "cpu_usage_pct": 74.2,
+        "memory_usage_pct": 82.1
+      },
+      "logs": [
+        {
+          "id": "log-142-1",
+          "timestamp": "2026-11-07T07:43:42.695Z",
+          "level": "INFO",
+          "source": "payments-service-pod-7d4f9-k28n1",
+          "message": "Deployment v2.8.1 activated in production cluster us-east-1a",
+          "trace_id": "tr-9a88f11"
+        },
+        {
+          "id": "log-142-2",
+          "timestamp": "2026-11-07T07:44:42.695Z",
+          "level": "WARN",
+          "source": "payments-service-pod-7d4f9-k28n1",
+          "message": "HikariPool-1 - Connection acquisition wait time exceeded 10000ms for thread http-nio-8080-exec-14",
+          "trace_id": "tr-0199e82"
+        },
+        {
+          "id": "log-142-3",
+          "timestamp": "2026-11-07T07:45:42.695Z",
+          "level": "ERROR",
+          "source": "payments-service-pod-7d4f9-k28n1",
+          "message": "org.postgresql.util.PSQLException: Connection is not available, request timed out after 30005ms (HikariPool-1 - total=50, active=50, idle=0, waiting=142)",
+          "trace_id": "tr-7721a99"
+        },
+        {
+          "id": "log-142-4",
+          "timestamp": "2026-11-07T07:48:42.695Z",
+          "level": "FATAL",
+          "source": "api-gateway-envoy-ingress",
+          "message": "upstream connect error or disconnect/reset before headers. reset reason: connection failure, transport failure reason: delayed connect error: 111",
+          "trace_id": "tr-8832c01"
+        },
+        {
+          "id": "log-142-5",
+          "timestamp": "2026-11-07T07:51:42.695Z",
+          "level": "ERROR",
+          "source": "payments-service-pod-7d4f9-k28n1",
+          "message": "HikariPool-1 - Connection leak detection triggered: Connection leak detected for connection [org.postgresql.jdbc.PgConnection@6b38c21] on thread http-nio-8080-exec-49",
+          "trace_id": "tr-4412b10"
+        }
+      ],
+      "recent_deployments": [
+        {
+          "version": "v2.8.1",
+          "commit_hash": "a4f91e8",
+          "author": "Alex Rivera",
+          "timestamp": "2026-11-07T07:41:42.695Z",
+          "description": "feat(payments): update checkout session timeouts and HikariCP connection leak detection",
+          "diff_highlights": [
+            "- hikari.max-lifetime: 540000",
+            "+ hikari.max-lifetime: 1800000",
+            "+ hikari.leak-detection-threshold: 2000",
+            "+ hikari.connection-timeout: 30000"
+          ]
+        },
+        {
+          "version": "v2.8.0",
+          "commit_hash": "c812d34",
+          "author": "Elena Rostova",
+          "timestamp": "2026-11-05T07:56:42.695Z",
+          "description": "refactor(payments): Stripe Webhook v3 migration and idempotent replay handlers"
+        }
+      ],
+      "notes": [
+        {
+          "id": "note-1",
+          "author": "Marcus Vance",
+          "timestamp": "2026-11-07T07:46:42.695Z",
+          "content": "Alert paging initiated. All 50 database connections in the Hikari pool are pinned in active state. Checking DB load."
+        }
+      ]
+    },
+    {
+      "id": "INC-2024-089",
+      "title": "Payment Gateway Connection Pool Starvation under High Concurrency",
+      "description": "Database connection pool exhaustion after pool-size mismatch between HikariCP and upstream pgBouncer pooler during flash traffic event.",
+      "severity": "SEV-1",
+      "status": "resolved",
+      "affected_service": "payments-service",
+      "environment": "production",
+      "started_at": "2024-08-14T14:22:00Z",
+      "resolved_at": "2024-08-14T14:48:00Z",
+      "duration_minutes": 26,
+      "assigned_engineer": {
+        "name": "Marcus Vance",
+        "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80",
+        "email": "m.vance@pagerlore.internal",
+        "role": "Lead SRE Engineer"
+      },
+      "metrics": {
+        "error_rate_pct": 0.02,
+        "p95_latency_ms": 145,
+        "request_rate_rps": 380,
+        "db_connection_pool_saturation_pct": 22.4,
+        "cpu_usage_pct": 38.5,
+        "memory_usage_pct": 46.2
+      },
+      "logs": [
+        {
+          "id": "log-089-1",
+          "timestamp": "2024-08-14T14:23:10Z",
+          "level": "ERROR",
+          "source": "payments-service",
+          "message": "HikariPool-1 - Connection is not available, request timed out after 30000ms"
+        },
+        {
+          "id": "log-089-2",
+          "timestamp": "2024-08-14T14:28:44Z",
+          "level": "INFO",
+          "source": "sre-ops",
+          "message": "Identified TCP socket drop from pgBouncer server_idle_timeout mismatch (10m vs HikariCP 30m maxLifetime)"
+        }
+      ],
+      "recent_deployments": [
+        {
+          "version": "v2.6.4",
+          "commit_hash": "99f10a2",
+          "author": "DevOps Team",
+          "timestamp": "2024-08-14T13:00:00Z",
+          "description": "infra: pgBouncer transaction pooling proxy rollout"
+        }
+      ],
+      "postmortem": {
+        "incident_id": "INC-2024-089",
+        "summary": "Production checkout failures caused by HikariCP maxLifetime exceeding upstream pgBouncer server_idle_timeout by 20 minutes.",
+        "root_cause": "HikariCP `maxLifetime` was set to 1800000ms (30m) while pgBouncer `server_idle_timeout` was 600s (10m). When pgBouncer closed idle server connections, HikariCP continued sending pooled queries over severed TCP sockets, causing query thread exhaustion and connection pool saturation.",
+        "detection_method": "Datadog synthetic monitor alert on POST /v1/checkout/charge latency p95 > 2000ms.",
+        "timeline": [
+          {
+            "timestamp": "14:22:00",
+            "note": "Alert fired: P95 latency > 2s on payments"
+          },
+          {
+            "timestamp": "14:28:00",
+            "note": "SRE verified database CPU was low (18%), ruling out slow queries"
+          },
+          {
+            "timestamp": "14:34:00",
+            "note": "Noticed HikariCP pool at 50/50 connections with 0 idle"
+          },
+          {
+            "timestamp": "14:40:00",
+            "note": "Updated HikariCP config maxLifetime to 540000ms (9m) below pgBouncer 10m"
+          },
+          {
+            "timestamp": "14:48:00",
+            "note": "Hot restart of payments pods. Pool saturation dropped to 18%."
+          }
+        ],
+        "actions_taken": [
+          "Checked PostgreSQL active locks and query plan",
+          "Inspected pgBouncer pool metrics",
+          "Applied hot config update to HikariCP maxLifetime",
+          "Restarted payments service pods gracefully"
+        ],
+        "successful_actions": [
+          "Reduced HikariCP maxLifetime from 1800000ms (30m) to 540000ms (9m) so client discards connections before proxy idle drop",
+          "Lowered connectionTimeout to 5000ms to fail fast under pressure"
+        ],
+        "failed_attempts": [
+          "Increasing max connections on PostgreSQL primary didn't resolve because connections were dropped at proxy layer"
+        ],
+        "final_resolution": "Configured HikariCP max-lifetime = 540000 (9m) and keepalive-time = 60000 in application.yml. Documented rule: HikariCP maxLifetime must ALWAYS be strictly less than pgBouncer server_idle_timeout.",
+        "mttr_minutes": 26,
+        "business_impact": "Approx $18,400 in abandoned checkout sessions during 26-minute window.",
+        "preventive_measures": [
+          "Add CI/CD configuration linter asserting client pool maxLifetime < proxy timeout",
+          "Add automated alert on HikariCP pool acquisition wait time > 250ms"
+        ],
+        "hindsight_memory_id": "mem-hindsight-8901-hikari",
+        "hindsight_retained": true,
+        "submitted_at": "2024-08-14T17:30:00Z",
+        "submitted_by": "Marcus Vance"
+      }
+    },
+    {
+      "id": "INC-2024-102",
+      "title": "Kafka Consumer Lag & Rebalance Storm in Order Processing",
+      "description": "Order fulfillment delays due to repeated consumer group rebalance loops triggered by long GC pauses in worker nodes.",
+      "severity": "SEV-2",
+      "status": "resolved",
+      "affected_service": "order-processor",
+      "environment": "production",
+      "started_at": "2024-09-02T09:14:00Z",
+      "resolved_at": "2024-09-02T10:02:00Z",
+      "duration_minutes": 48,
+      "assigned_engineer": {
+        "name": "Sophia Zhang",
+        "avatar": "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=150&auto=format&fit=crop&q=80",
+        "email": "s.zhang@pagerlore.internal",
+        "role": "Distributed Systems Engineer"
+      },
+      "metrics": {
+        "error_rate_pct": 0.1,
+        "p95_latency_ms": 82,
+        "request_rate_rps": 650,
+        "cpu_usage_pct": 42.1,
+        "memory_usage_pct": 54
+      },
+      "logs": [
+        {
+          "id": "log-102-1",
+          "timestamp": "2024-09-02T09:15:30Z",
+          "level": "WARN",
+          "source": "order-processor",
+          "message": "CommitFailedException: Commit cannot be completed since the group has already rebalanced and assigned the partitions to another member."
+        }
+      ],
+      "recent_deployments": [
+        {
+          "version": "v1.19.2",
+          "commit_hash": "d348b91",
+          "author": "Order Team",
+          "timestamp": "2024-09-01T18:00:00Z",
+          "description": "batch processing optimizations for PDF invoices"
+        }
+      ],
+      "postmortem": {
+        "incident_id": "INC-2024-102",
+        "summary": "Consumer group rebalance cascade caused by invoice rendering GC pauses exceeding max.poll.interval.ms.",
+        "root_cause": "Heavy memory allocation during batch PDF invoice generation triggered 8-second Stop-The-World G1GC pauses. The Kafka consumer missed heartbeats and exceeded max.poll.interval.ms (30000ms), causing the broker to consider the consumer dead and trigger partition reassignment continuously.",
+        "detection_method": "Kafka consumer lag alert threshold > 5000 messages.",
+        "timeline": [
+          {
+            "timestamp": "09:14:00",
+            "note": "Kafka lag spiked to 12,000 messages"
+          },
+          {
+            "timestamp": "09:28:00",
+            "note": "JVM heap dumps revealed 4GB PDF byte arrays in Eden space"
+          },
+          {
+            "timestamp": "09:45:00",
+            "note": "Offloaded PDF generation to async background queue and doubled max.poll.interval.ms"
+          },
+          {
+            "timestamp": "10:02:00",
+            "note": "Consumer lag drained to zero, partition assignments stabilized"
+          }
+        ],
+        "actions_taken": [
+          "Isolated consumer group",
+          "Profiled JVM heap and GC pauses",
+          "Separated CPU/Memory intensive batch tasks"
+        ],
+        "successful_actions": [
+          "Separated PDF generation from Kafka ingestion loop",
+          "Increased max.poll.interval.ms to 600000ms"
+        ],
+        "failed_attempts": [
+          "Scaling consumer pod count worsened rebalance storms"
+        ],
+        "final_resolution": "Decoupled invoice PDF rendering to separate worker cluster with dedicated JVM flags.",
+        "mttr_minutes": 48,
+        "business_impact": "Fulfillment notification delays for ~4,200 orders.",
+        "preventive_measures": [
+          "Enforce maximum payload limits in consumer loop",
+          "Add GC pause duration SLO alerting"
+        ],
+        "hindsight_memory_id": "mem-hindsight-9921-kafka",
+        "hindsight_retained": true,
+        "submitted_at": "2024-09-02T14:00:00Z",
+        "submitted_by": "Sophia Zhang"
+      }
+    },
+    {
+      "id": "INC-2024-118",
+      "title": "Redis Cache Eviction Cascade causing Auth Service 504 Gateway Timeouts",
+      "description": "Session token verification cache had no TTL jitter, resulting in a synchronized expiry thundering herd against PostgreSQL auth table.",
+      "severity": "SEV-2",
+      "status": "resolved",
+      "affected_service": "auth-service",
+      "environment": "production",
+      "started_at": "2024-10-12T19:30:00Z",
+      "resolved_at": "2024-10-12T20:05:00Z",
+      "duration_minutes": 35,
+      "assigned_engineer": {
+        "name": "Tariq Mansoor",
+        "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80",
+        "email": "t.mansoor@pagerlore.internal",
+        "role": "Security & Infrastructure Lead"
+      },
+      "metrics": {
+        "error_rate_pct": 0.05,
+        "p95_latency_ms": 45,
+        "request_rate_rps": 1200,
+        "cpu_usage_pct": 28,
+        "memory_usage_pct": 49.5
+      },
+      "logs": [
+        {
+          "id": "log-118-1",
+          "timestamp": "2024-10-12T19:32:00Z",
+          "level": "ERROR",
+          "source": "auth-service",
+          "message": "Postgres pool connection timeout: 1200 simultaneous cache misses querying users_tokens table"
+        }
+      ],
+      "recent_deployments": [
+        {
+          "version": "v3.4.0",
+          "commit_hash": "f7192a0",
+          "author": "Auth Core",
+          "timestamp": "2024-10-12T18:00:00Z",
+          "description": "Strict 1-hour session expiry policy enforcement"
+        }
+      ],
+      "postmortem": {
+        "incident_id": "INC-2024-118",
+        "summary": "Thundering herd problem caused by exact 3600-second session token TTL eviction in Redis.",
+        "root_cause": "All tokens issued at top of the hour expired simultaneously at 19:30 UTC. Redis evicted 85,000 keys concurrently, causing 1,200 incoming requests per second to bypass cache and hammer PostgreSQL users_tokens table with redundant SELECT queries.",
+        "detection_method": "Grafana 504 Gateway Timeout alert on /v1/auth/verify endpoint.",
+        "timeline": [
+          {
+            "timestamp": "19:30:00",
+            "note": "Spike in Redis GET misses from 1.2% to 74%"
+          },
+          {
+            "timestamp": "19:34:00",
+            "note": "PostgreSQL auth replica connection saturation reached 100%"
+          },
+          {
+            "timestamp": "19:48:00",
+            "note": "Deployed singleflight request coalescer to prevent duplicate DB queries"
+          },
+          {
+            "timestamp": "20:05:00",
+            "note": "Added 15% random TTL jitter (+/- 540s) on token cache insertion"
+          }
+        ],
+        "actions_taken": [
+          "Inspected Redis memory and key expiry rates",
+          "Identified thundering herd query pattern",
+          "Implemented cache lock/singleflight"
+        ],
+        "successful_actions": [
+          "Implemented singleflight pattern in Go auth service so 1 DB query fulfills concurrent in-flight misses",
+          "Applied 15% uniform random jitter to TTL (3600s +/- 540s)"
+        ],
+        "failed_attempts": [
+          "Restarting Redis instance flushed remaining warm keys and exacerbated DB load"
+        ],
+        "final_resolution": "Added singleflight deduplication and TTL jitter to session manager.",
+        "mttr_minutes": 35,
+        "business_impact": "User login stalls and 504 errors affecting ~11,000 active sessions for 35 minutes.",
+        "preventive_measures": [
+          "Mandate TTL jitter across all Redis caching keys in codebase linter"
+        ],
+        "hindsight_memory_id": "mem-hindsight-7104-redis",
+        "hindsight_retained": true,
+        "submitted_at": "2024-10-12T22:15:00Z",
+        "submitted_by": "Tariq Mansoor"
+      }
+    },
+    {
+      "id": "INC-2024-131",
+      "title": "API Gateway Envoy Rate-Limiter Redis Cluster Network Partition",
+      "description": "Staging and production split-brain scenario on Redis sentinel cluster causing Envoy rate limiter to default to fail-closed behavior.",
+      "severity": "SEV-3",
+      "status": "resolved",
+      "affected_service": "api-gateway",
+      "environment": "staging",
+      "started_at": "2024-10-25T11:00:00Z",
+      "resolved_at": "2024-10-25T11:42:00Z",
+      "duration_minutes": 42,
+      "assigned_engineer": {
+        "name": "Marcus Vance",
+        "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80",
+        "email": "m.vance@pagerlore.internal",
+        "role": "Lead SRE Engineer"
+      },
+      "metrics": {
+        "error_rate_pct": 0,
+        "p95_latency_ms": 12,
+        "request_rate_rps": 180,
+        "cpu_usage_pct": 19.4,
+        "memory_usage_pct": 32.1
+      },
+      "logs": [],
+      "recent_deployments": []
+    },
+    {
+      "id": "INC-2024-155",
+      "title": "Order Fulfillment JVM Heap Exhaustion & Perpetual Kafka Consumer Rebalance Storm",
+      "description": "Order-processor service memory utilization at 94.8% with 8-second Stop-The-World G1GC pauses. Kafka consumer group constantly rebalancing; order fulfillment lag surged to 18,500 messages following deployment v1.20.1.",
+      "severity": "SEV-2",
+      "status": "investigating",
+      "affected_service": "order-processor",
+      "environment": "production",
+      "started_at": "2026-11-07T07:38:42.695Z",
+      "duration_minutes": 18,
+      "assigned_engineer": {
+        "name": "Sophia Zhang",
+        "avatar": "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=150&auto=format&fit=crop&q=80",
+        "email": "s.zhang@pagerlore.internal",
+        "role": "Distributed Systems Engineer"
+      },
+      "metrics": {
+        "error_rate_pct": 14.8,
+        "p95_latency_ms": 3450,
+        "request_rate_rps": 620,
+        "cpu_usage_pct": 88.5,
+        "memory_usage_pct": 94.8,
+        "db_connection_pool_saturation_pct": 32
+      },
+      "logs": [
+        {
+          "id": "log-155-1",
+          "timestamp": "2026-11-07T07:39:42.695Z",
+          "level": "INFO",
+          "source": "order-processor-pod-89df-1",
+          "message": "Deployment v1.20.1 activated: inline PDF invoice attachments for checkout emails enabled",
+          "trace_id": "tr-kfk-101"
+        },
+        {
+          "id": "log-155-2",
+          "timestamp": "2026-11-07T07:42:42.695Z",
+          "level": "WARN",
+          "source": "order-processor-pod-89df-1",
+          "message": "GC[142] Pause Full (Allocation Failure) (G1 Evacuation Pause) 7940ms, Eden: 0.0B(4096.0M)->0.0B(4096.0M), Survivors: 0.0B->0.0B, Heap: 7890.2M(8192.0M)->7812.5M(8192.0M)",
+          "trace_id": "tr-kfk-102"
+        },
+        {
+          "id": "log-155-3",
+          "timestamp": "2026-11-07T07:45:42.695Z",
+          "level": "ERROR",
+          "source": "order-processor-pod-89df-1",
+          "message": "org.apache.kafka.clients.consumer.CommitFailedException: Commit cannot be completed since the group has already rebalanced and assigned partitions to another member (max.poll.interval.ms exceeded: 30000ms)",
+          "trace_id": "tr-kfk-103"
+        },
+        {
+          "id": "log-155-4",
+          "timestamp": "2026-11-07T07:50:42.695Z",
+          "level": "FATAL",
+          "source": "order-processor-pod-89df-1",
+          "message": "java.lang.OutOfMemoryError: Java heap space during InvoiceStreamingService.renderPdfBatch",
+          "trace_id": "tr-kfk-104"
+        }
+      ],
+      "recent_deployments": [
+        {
+          "version": "v1.20.1",
+          "commit_hash": "e5b2210",
+          "author": "Jordan Patel",
+          "timestamp": "2026-11-07T07:31:42.695Z",
+          "description": "feat(orders): inline streaming PDF invoice attachments for checkout emails",
+          "diff_highlights": [
+            "+ byte[] pdfBytes = pdfRenderer.renderToBytes(orderSummary);",
+            "+ emailAttachmentStream.write(pdfBytes); // synchronous memory allocation in consumer thread"
+          ]
+        }
+      ],
+      "notes": [
+        {
+          "id": "note-155-1",
+          "author": "Sophia Zhang",
+          "timestamp": "2026-11-07T07:48:42.695Z",
+          "content": "Order processor pods are caught in continuous rebalance cycles. Memory is pinned above 94% with massive GC pauses."
+        }
+      ]
+    },
+    {
+      "id": "INC-2024-168",
+      "title": "Auth Service 504 Gateway Timeout Cascade from Redis Session Expiration Thundering Herd",
+      "description": "Session token verification endpoints experiencing 504 Gateway Timeouts. Redis cache hit rate collapsed from 99.2% to 18.5%, sending 1,450 concurrent queries per second to PostgreSQL auth replicas.",
+      "severity": "SEV-1",
+      "status": "investigating",
+      "affected_service": "auth-service",
+      "environment": "production",
+      "started_at": "2026-11-07T07:44:42.695Z",
+      "duration_minutes": 12,
+      "assigned_engineer": {
+        "name": "Tariq Mansoor",
+        "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80",
+        "email": "t.mansoor@pagerlore.internal",
+        "role": "Security & Infrastructure Lead"
+      },
+      "metrics": {
+        "error_rate_pct": 31.2,
+        "p95_latency_ms": 4120,
+        "request_rate_rps": 1450,
+        "cpu_usage_pct": 68,
+        "memory_usage_pct": 54,
+        "db_connection_pool_saturation_pct": 99.1
+      },
+      "logs": [
+        {
+          "id": "log-168-1",
+          "timestamp": "2026-11-07T07:45:42.695Z",
+          "level": "INFO",
+          "source": "auth-service-pod-0a2f",
+          "message": "Synchronized top-of-hour session expiry triggered: 92,000 keys expired concurrently in Redis db0",
+          "trace_id": "tr-ath-201"
+        },
+        {
+          "id": "log-168-2",
+          "timestamp": "2026-11-07T07:47:42.695Z",
+          "level": "WARN",
+          "source": "auth-service-pod-0a2f",
+          "message": "Cache miss rate surged to 81.5% on /v1/auth/verify: 1450 simultaneous DB lookups in-flight",
+          "trace_id": "tr-ath-202"
+        },
+        {
+          "id": "log-168-3",
+          "timestamp": "2026-11-07T07:49:42.695Z",
+          "level": "ERROR",
+          "source": "auth-service-pod-0a2f",
+          "message": "PostgreSQL auth replica connection pool exhausted (active=100/100, waiting=420): queries queued for users_tokens table",
+          "trace_id": "tr-ath-203"
+        },
+        {
+          "id": "log-168-4",
+          "timestamp": "2026-11-07T07:52:42.695Z",
+          "level": "FATAL",
+          "source": "envoy-edge-proxy",
+          "message": "HTTP/1.1 504 Gateway Timeout returned to upstream mobile clients on /v1/auth/verify",
+          "trace_id": "tr-ath-204"
+        }
+      ],
+      "recent_deployments": [
+        {
+          "version": "v3.5.0",
+          "commit_hash": "b119c8f",
+          "author": "Auth Core",
+          "timestamp": "2026-11-07T07:21:42.695Z",
+          "description": "refactor(auth): enforce strict synchronized 3600s session token expiration",
+          "diff_highlights": [
+            "- token.setTtl(3600 + Math.random() * 540);",
+            "+ token.setTtl(3600); // normalized TTL without jitter"
+          ]
+        }
+      ],
+      "notes": [
+        {
+          "id": "note-168-1",
+          "author": "Tariq Mansoor",
+          "timestamp": "2026-11-07T07:51:42.695Z",
+          "content": "Top of the hour cache drop caused all 90k tokens to expire at the same instant. PostgreSQL replica is drowning under identical read queries."
+        }
+      ]
+    },
+    {
+      "id": "INC-2024-177",
+      "title": "Edge Ingress Gateway Cloudflare Origin TLS Handshake Negotiation Failure",
+      "description": "Global mobile and web clients receiving HTTP 525 SSL Handshake Failed errors at Envoy ingress gateway following upstream certificate renewal. No prior historical precedent in institutional memory.",
+      "severity": "SEV-2",
+      "status": "investigating",
+      "affected_service": "api-gateway",
+      "environment": "production",
+      "started_at": "2026-11-07T07:47:42.695Z",
+      "duration_minutes": 9,
+      "assigned_engineer": {
+        "name": "Marcus Vance",
+        "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80",
+        "email": "m.vance@pagerlore.internal",
+        "role": "Lead SRE Engineer"
+      },
+      "metrics": {
+        "error_rate_pct": 42,
+        "p95_latency_ms": 180,
+        "request_rate_rps": 840,
+        "cpu_usage_pct": 22.1,
+        "memory_usage_pct": 35,
+        "db_connection_pool_saturation_pct": 12
+      },
+      "logs": [
+        {
+          "id": "log-177-1",
+          "timestamp": "2026-11-07T07:48:42.695Z",
+          "level": "ERROR",
+          "source": "envoy-ingress-edge",
+          "message": "SSL routines:tls_process_server_certificate:certificate verify failed: self-signed certificate in certificate chain",
+          "trace_id": "tr-tls-001"
+        },
+        {
+          "id": "log-177-2",
+          "timestamp": "2026-11-07T07:51:42.695Z",
+          "level": "WARN",
+          "source": "envoy-ingress-edge",
+          "message": "Upstream Cloudflare Origin CA certificate renewed upstream but intermediate root cert missing from Kubernetes secret 'envoy-tls-ca-bundle'",
+          "trace_id": "tr-tls-002"
+        }
+      ],
+      "recent_deployments": [],
+      "notes": [
+        {
+          "id": "note-177-1",
+          "author": "Marcus Vance",
+          "timestamp": "2026-11-07T07:53:42.696Z",
+          "content": "Cloudflare renewed our origin certificate 15 minutes ago. Envoy is rejecting the TLS handshake because the intermediate CA bundle in secret store is outdated."
+        }
+      ]
+    },
+    {
+      "id": "INC-2024-188",
+      "title": "Database Cluster Elevated Read Latency: High CPU vs Connection Saturation Dilemma",
+      "description": "Database read replicas reporting 88% CPU utilization and elevated p99 query latency (1,850ms). Conflicting historical precedents exist between connection pool saturation and query index regression.",
+      "severity": "SEV-2",
+      "status": "investigating",
+      "affected_service": "database-cluster",
+      "environment": "production",
+      "started_at": "2026-11-07T07:41:42.696Z",
+      "duration_minutes": 15,
+      "assigned_engineer": {
+        "name": "Marcus Vance",
+        "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80",
+        "email": "m.vance@pagerlore.internal",
+        "role": "Lead SRE Engineer"
+      },
+      "metrics": {
+        "error_rate_pct": 4.8,
+        "p95_latency_ms": 1850,
+        "request_rate_rps": 920,
+        "cpu_usage_pct": 88.4,
+        "memory_usage_pct": 62.1,
+        "db_connection_pool_saturation_pct": 34.2
+      },
+      "logs": [
+        {
+          "id": "log-188-1",
+          "timestamp": "2026-11-07T07:42:42.696Z",
+          "level": "WARN",
+          "source": "postgres-replica-01",
+          "message": "pg_stat_activity: 18 sequential scans detected on transactions table during account ledger reconciliations",
+          "trace_id": "tr-db-301"
+        },
+        {
+          "id": "log-188-2",
+          "timestamp": "2026-11-07T07:46:42.696Z",
+          "level": "INFO",
+          "source": "postgres-replica-01",
+          "message": "Connection pool active connections: 34/100 (Pool is healthy, CPU saturation caused by Seq Scan lock contention)",
+          "trace_id": "tr-db-302"
+        }
+      ],
+      "recent_deployments": [
+        {
+          "version": "v2.8.2",
+          "commit_hash": "7f4c91a",
+          "author": "Data Platform",
+          "timestamp": "2026-11-07T07:16:42.696Z",
+          "description": "migration: drop unused composite index idx_transactions_account_created"
+        }
+      ],
+      "notes": [
+        {
+          "id": "note-188-1",
+          "author": "Marcus Vance",
+          "timestamp": "2026-11-07T07:50:42.696Z",
+          "content": "Need to verify if this is another connection pool issue or an index drop regression. DB CPU is high but connection pool is only at 34%."
+        }
+      ]
+    }
+  ],
+  "memories": [
+    {
+      "id": "mem-retained-mw640wk1-j1do",
+      "text": "Verified rule: When deploying Go microservices, always wrap external HTTP calls with context.WithTimeout(5s).",
+      "type": "experience",
+      "entities": [
+        "auth-service",
+        "INC-2024-199",
+        "post-mortem"
+      ],
+      "score": 0.98,
+      "occurred_start": "2026-11-07T07:56:42.577Z",
+      "occurred_end": "2026-11-07T07:56:42.577Z",
+      "source_incident_id": "INC-2024-199",
+      "service": "auth-service",
+      "resolution_action": "Added 5s context timeout",
+      "metadata": {
+        "incidentId": "INC-2024-199",
+        "service": "auth-service",
+        "resolution": "Added 5s context timeout"
+      }
+    },
+    {
+      "id": "mem-hindsight-8901-hikari",
+      "text": "In payments-service, HikariCP maxLifetime was misconfigured to 1800000ms (30m) which exceeded pgBouncer server_idle_timeout of 600s (10m). When pgBouncer dropped idle connections at 10m, HikariCP continued dispatching queries over dead TCP sockets, causing connection acquisition timeouts (PSQLException: Connection is not available, request timed out after 30005ms) and 100% pool saturation under load. The proven resolution is setting HikariCP maxLifetime strictly lower than pgBouncer (540000ms / 9m), setting connectionTimeout to 5000ms, and enabling keepalive-time 60000ms.",
+      "type": "experience",
+      "entities": [
+        "payments-service",
+        "HikariCP",
+        "pgBouncer",
+        "server_idle_timeout",
+        "maxLifetime",
+        "PSQLException",
+        "connection pool saturation",
+        "PostgreSQL"
+      ],
+      "score": 0.96,
+      "occurred_start": "2024-08-14T14:22:00Z",
+      "occurred_end": "2024-08-14T14:48:00Z",
+      "source_incident_id": "INC-2024-089",
+      "service": "payments-service",
+      "resolution_action": "Set HikariCP maxLifetime = 540000ms (strictly < pgBouncer server_idle_timeout 600s), set connectionTimeout = 5000ms, apply keepalive-time = 60000ms.",
+      "preventive_action": "Enforce maxLifetime < server_idle_timeout in application.yml linter during CI build.",
+      "metadata": {
+        "verified_by": "Marcus Vance",
+        "impact_prevented": "$18,400 / hour in failed checkouts",
+        "root_cause_category": "Connection Pool & Proxy Timeout Asymmetry"
+      }
+    },
+    {
+      "id": "mem-hindsight-8902-pool-leak",
+      "text": "Observation: When HikariCP connection leak detection logs fire with 'Connection leak detected for connection [org.postgresql.jdbc.PgConnection] on thread http-nio', do NOT immediately increase PostgreSQL max_connections. Verify if checkout transaction methods @Transactional are holding connections open while waiting for third-party HTTP gateway calls. Moving external payment processor calls outside the DB transaction boundary reduced average connection hold time from 2400ms to 42ms.",
+      "type": "observation",
+      "entities": [
+        "payments-service",
+        "HikariCP",
+        "leak-detection-threshold",
+        "@Transactional",
+        "connection hold time",
+        "third-party HTTP"
+      ],
+      "score": 0.89,
+      "occurred_start": "2024-08-14T14:35:00Z",
+      "source_incident_id": "INC-2024-089",
+      "service": "payments-service",
+      "resolution_action": "Refactor @Transactional boundaries to exclude synchronous external HTTP API calls to Stripe/Adyen.",
+      "preventive_action": "Static analysis rule: No RestTemplate/WebClient calls inside @Transactional blocks.",
+      "metadata": {
+        "verified_by": "Alex Rivera",
+        "category": "Architectural Anti-Pattern"
+      }
+    },
+    {
+      "id": "mem-hindsight-9921-kafka",
+      "text": "In order-processor, Kafka consumer group rebalance storms occurred when batch PDF invoice rendering caused Stop-The-World G1GC pauses exceeding max.poll.interval.ms (30000ms). The Kafka broker considered consumers dead and triggered perpetual rebalances. Resolution: Decoupled PDF generation from the consumer thread into an asynchronous worker pool and increased max.poll.interval.ms to 600000ms with max.poll.records tuned to 50.",
+      "type": "experience",
+      "entities": [
+        "order-processor",
+        "Kafka",
+        "consumer group rebalance",
+        "CommitFailedException",
+        "max.poll.interval.ms",
+        "G1GC",
+        "STW pause"
+      ],
+      "score": 0.94,
+      "occurred_start": "2024-09-02T09:14:00Z",
+      "occurred_end": "2024-09-02T10:02:00Z",
+      "source_incident_id": "INC-2024-102",
+      "service": "order-processor",
+      "resolution_action": "Decouple heavy CPU/memory processing from consumer loop; increase max.poll.interval.ms to 600000ms; tune max.poll.records.",
+      "preventive_action": "Add Datadog SLO alert on JVM GC pause > 500ms on Kafka consumer clusters.",
+      "metadata": {
+        "verified_by": "Sophia Zhang",
+        "category": "Queue Processing & GC Starvation"
+      }
+    },
+    {
+      "id": "mem-hindsight-7104-redis",
+      "text": "In auth-service, an un-jittered 1-hour session token TTL caused a thundering herd cache stampede at top of the hour. Concurrent expiry of 85,000 keys generated 1200 QPS direct to the PostgreSQL users_tokens table, saturating replica connection pools and causing 504 Gateway Timeouts. Resolution: Applied 15% uniform random jitter (3600s +/- 540s) and implemented Go singleflight request deduplication so only 1 DB query executes per unique token cache miss.",
+      "type": "experience",
+      "entities": [
+        "auth-service",
+        "Redis",
+        "cache stampede",
+        "thundering herd",
+        "TTL jitter",
+        "singleflight",
+        "504 Gateway Timeout"
+      ],
+      "score": 0.92,
+      "occurred_start": "2024-10-12T19:30:00Z",
+      "occurred_end": "2024-10-12T20:05:00Z",
+      "source_incident_id": "INC-2024-118",
+      "service": "auth-service",
+      "resolution_action": "Add 15% random jitter to Redis TTL and wrap database fallbacks in singleflight deduplication.",
+      "preventive_action": "Mandate cache key TTL jitter helper in internal SDKs.",
+      "metadata": {
+        "verified_by": "Tariq Mansoor",
+        "category": "Caching & Cache Stampede"
+      }
+    },
+    {
+      "id": "mem-hindsight-1001-world",
+      "text": "Production infrastructure topology rule: All microservices interacting with Postgres DB via pgBouncer pooler must ensure that connection pool timeouts (HikariCP, dbcp2, GORM, Django pool) satisfy: Client maxLifetime <= pgBouncer server_idle_timeout - 60s. Failure to follow this creates dead sockets in pool.",
+      "type": "world",
+      "entities": [
+        "pgBouncer",
+        "PostgreSQL",
+        "HikariCP",
+        "architecture rule",
+        "infrastructure standards"
+      ],
+      "score": 0.85,
+      "source_incident_id": "INC-2024-089",
+      "service": "database-cluster",
+      "resolution_action": "Validate pool configuration against proxy timeout spec.",
+      "metadata": {
+        "rule_type": "Architecture Standard",
+        "enforced_by": "SRE Platform Guild"
+      }
+    },
+    {
+      "id": "mem-hindsight-3312-index",
+      "text": "In database-cluster, high CPU utilization (85%+) accompanied by slow read queries on /v1/ledger was caused by dropping the composite index idx_transactions_account_created. When seq scans occur, CPU pins while connection pool saturation remains moderate (under 40%). Resolution: Re-create concurrent composite index CONCURRENTLY idx_transactions_account_created ON transactions(account_id, created_at). Do NOT attempt connection pool restarts as CPU pressure is query plan bound.",
+      "type": "experience",
+      "entities": [
+        "database-cluster",
+        "PostgreSQL",
+        "sequential scan",
+        "high CPU",
+        "composite index",
+        "query plan regression"
+      ],
+      "score": 0.91,
+      "source_incident_id": "INC-2024-071",
+      "service": "database-cluster",
+      "resolution_action": "CREATE INDEX CONCURRENTLY idx_transactions_account_created ON transactions(account_id, created_at);",
+      "preventive_action": "Require SRE database index review before running DDL migrations in production.",
+      "metadata": {
+        "verified_by": "Data Platform Guild",
+        "category": "Database Indexing & CPU Bound Queries"
+      }
+    }
+  ],
+  "lastResetAt": "2026-11-07T07:56:42.699Z"
+}

@@ -78,6 +78,7 @@ export interface InvestigationHypothesis {
   id: string;
   hypothesis: string;
   confidence_pct: number;
+  confidence_label?: "HEURISTIC ESTIMATE" | "EMPIRICALLY GROUNDED" | "LOW CONFIDENCE SPECULATION";
   supporting_evidence: string[];
   contradicting_evidence: string[];
   relevant_historical_incident?: {
@@ -87,6 +88,7 @@ export interface InvestigationHypothesis {
     root_cause_similarity: string;
   };
   diagnostic_next_step: string;
+  verification_status?: "verified" | "unverified" | "refuted";
 }
 
 export interface RemediationRecommendation {
@@ -97,11 +99,17 @@ export interface RemediationRecommendation {
   historical_justification: string;
   risk_level: "LOW" | "MEDIUM" | "HIGH";
   expected_outcome: string;
+  rollback_procedure?: string;
   command_or_script?: string;
   requires_approval: boolean;
   approved?: boolean;
   approved_by?: string;
   approved_at?: string;
+  verification_metrics?: {
+    metric: string;
+    before: string;
+    expected_after: string;
+  };
 }
 
 export interface InvestigationResult {
@@ -109,6 +117,9 @@ export interface InvestigationResult {
   mode: "with_memory" | "without_memory";
   timestamp: string;
   signals_analyzed_count: number;
+  facts_extracted?: string[];
+  assumptions_identified?: string[];
+  retrieval_status?: "strong_match" | "partial_match" | "weak_match" | "no_match" | "conflicting_match";
   hypotheses: InvestigationHypothesis[];
   remediations: RemediationRecommendation[];
   historical_memories_used: Array<{
@@ -117,8 +128,14 @@ export interface InvestigationResult {
     source_incident_id?: string;
     score: number;
     entities: string[];
+    relevance_tier?: "strong" | "partial" | "weak" | "none";
   }>;
   executive_summary: string;
   investigation_duration_ms: number;
+  verification_checklist?: Array<{
+    check: string;
+    status: "passed" | "pending" | "failed";
+    evidence: string;
+  }>;
 }
 

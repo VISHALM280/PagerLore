@@ -121,5 +121,27 @@ export const INITIAL_MEMORIES: RecallResult[] = [
       enforced_by: "SRE Platform Guild",
     },
   },
+  {
+    id: "mem-hindsight-3312-index",
+    text: "In database-cluster, high CPU utilization (85%+) accompanied by slow read queries on /v1/ledger was caused by dropping the composite index idx_transactions_account_created. When seq scans occur, CPU pins while connection pool saturation remains moderate (under 40%). Resolution: Re-create concurrent composite index CONCURRENTLY idx_transactions_account_created ON transactions(account_id, created_at). Do NOT attempt connection pool restarts as CPU pressure is query plan bound.",
+    type: "experience",
+    entities: [
+      "database-cluster",
+      "PostgreSQL",
+      "sequential scan",
+      "high CPU",
+      "composite index",
+      "query plan regression",
+    ],
+    score: 0.91,
+    source_incident_id: "INC-2024-071",
+    service: "database-cluster",
+    resolution_action: "CREATE INDEX CONCURRENTLY idx_transactions_account_created ON transactions(account_id, created_at);",
+    preventive_action: "Require SRE database index review before running DDL migrations in production.",
+    metadata: {
+      verified_by: "Data Platform Guild",
+      category: "Database Indexing & CPU Bound Queries",
+    },
+  },
 ];
 

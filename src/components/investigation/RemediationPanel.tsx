@@ -134,12 +134,20 @@ export function RemediationPanel({
 
               {/* Historical Justification if available */}
               {rem.historical_justification && (
-                <div className="p-3 rounded bg-[#F8F7F2] border border-[#E9E8DF] text-xs font-mono text-[#25352D] mb-4 flex items-start gap-2">
+                <div className="p-3 rounded bg-[#F8F7F2] border border-[#E9E8DF] text-xs font-mono text-[#25352D] mb-3 flex items-start gap-2">
                   <Terminal className="w-4 h-4 text-[#B8A17A] flex-shrink-0 mt-0.5" />
                   <div>
                     <strong className="text-[#B8A17A]">Historical Proof: </strong>
                     <span className="font-sans text-[#788579]">{rem.historical_justification}</span>
                   </div>
+                </div>
+              )}
+
+              {/* Rollback Procedure */}
+              {rem.rollback_procedure && (
+                <div className="p-2.5 rounded bg-[#FFFBF0] border border-[#E8D3B6] text-xs font-mono text-[#788579] mb-4 flex items-center justify-between">
+                  <span className="text-[10px] uppercase font-bold text-[#C58B43]">Rollback Procedure:</span>
+                  <code className="text-[#25352D] font-mono text-[11px] truncate max-w-md">{rem.rollback_procedure}</code>
                 </div>
               )}
 

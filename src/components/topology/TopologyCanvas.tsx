@@ -32,7 +32,7 @@ export function TopologyCanvas() {
       rps: 1850,
       errorRatePct: 6.8,
       p95LatencyMs: 420,
-      activeIncidentId: "INC-2024-142",
+      activeIncidentId: "INC-2024-177",
       connections: ["auth-service", "payments-service", "order-processor"],
     },
     {
@@ -41,10 +41,11 @@ export function TopologyCanvas() {
       category: "service",
       x: 380,
       y: 110,
-      status: "healthy",
-      rps: 1200,
-      errorRatePct: 0.05,
-      p95LatencyMs: 45,
+      status: "critical",
+      rps: 1450,
+      errorRatePct: 31.2,
+      p95LatencyMs: 4120,
+      activeIncidentId: "INC-2024-168",
       connections: ["redis-cache", "database-cluster"],
     },
     {
@@ -66,10 +67,11 @@ export function TopologyCanvas() {
       category: "service",
       x: 390,
       y: 380,
-      status: "healthy",
-      rps: 650,
-      errorRatePct: 0.1,
-      p95LatencyMs: 82,
+      status: "warning",
+      rps: 620,
+      errorRatePct: 14.8,
+      p95LatencyMs: 3450,
+      activeIncidentId: "INC-2024-155",
       connections: ["kafka-queue", "database-cluster"],
     },
     {
@@ -129,6 +131,12 @@ export function TopologyCanvas() {
     <div className="flex flex-col lg:flex-row gap-6">
       {/* SVG Topology Graph Canvas */}
       <div className="flex-1 rounded-xl bg-[#FFFFFF] border border-[#E9E8DF] p-5 relative overflow-hidden shadow-subtle min-h-[480px]">
+        {/* Simulation Indicator */}
+        <div className="mb-3 px-3 py-1.5 rounded-lg bg-[#FCF6ED] border border-[#E8D3B6] flex items-center justify-between text-[11px] font-mono text-[#788579]">
+          <span>Simulated Service Mesh Telemetry · Real-time error blast-radius visualization</span>
+          <span className="text-[#C58B43] font-bold">SYNTHETIC MESH</span>
+        </div>
+
         {/* Top Status */}
         <div className="flex items-center justify-between mb-2 px-1">
           <div className="flex items-center gap-4 text-xs font-mono">

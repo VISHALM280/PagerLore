@@ -218,9 +218,16 @@ function InvestigationContent() {
             <div className="space-y-6 animate-in fade-in duration-300">
               {/* Executive Summary Card */}
               <div className="rounded-2xl bg-white border border-[#267B5B]/30 border-l-4 border-l-[#267B5B] p-6 shadow-sm">
-                <div className="flex items-center gap-2 text-xs font-mono text-[#267B5B] uppercase tracking-wider mb-2 font-semibold">
-                  <Sparkles className="w-4 h-4" />
-                  <span>Executive Findings & Historical Attribution</span>
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center gap-2 text-xs font-mono text-[#267B5B] uppercase tracking-wider font-semibold">
+                    <Sparkles className="w-4 h-4" />
+                    <span>Executive Findings & Historical Attribution</span>
+                  </div>
+                  {investigationResult.retrieval_status && (
+                    <span className="text-[10px] font-mono uppercase px-2.5 py-0.5 rounded-full font-bold bg-[#EAF2EC] text-[#267B5B] border border-[#BFD8C6]">
+                      {investigationResult.retrieval_status.replace("_", " ")}
+                    </span>
+                  )}
                 </div>
                 <p className="text-sm text-[#25352D] font-sans leading-relaxed">
                   {investigationResult.executive_summary}
@@ -235,6 +242,80 @@ function InvestigationContent() {
                   </span>
                 </div>
               </div>
+
+              {/* Signal Analysis: Grounded Facts vs Identified Assumptions */}
+              {((investigationResult.facts_extracted && investigationResult.facts_extracted.length > 0) ||
+                (investigationResult.assumptions_identified && investigationResult.assumptions_identified.length > 0)) && (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {/* Facts Box */}
+                  <div className="rounded-xl bg-white border border-[#E9E8DF] p-5 shadow-sm font-mono text-xs">
+                    <div className="flex items-center gap-2 text-[#267B5B] font-bold uppercase tracking-wider mb-3 text-[11px]">
+                      <span className="w-2 h-2 rounded-full bg-[#267B5B]" />
+                      <span>Stage 2 · Observed Ground-Truth Facts ({investigationResult.facts_extracted?.length || 0})</span>
+                    </div>
+                    <ul className="space-y-1.5 text-[#25352D] font-sans text-xs">
+                      {investigationResult.facts_extracted?.map((f, i) => (
+                        <li key={i} className="flex items-start gap-2">
+                          <span className="text-[#267B5B] font-bold">✓</span>
+                          <span>{f}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  {/* Assumptions Box */}
+                  <div className="rounded-xl bg-white border border-[#E9E8DF] p-5 shadow-sm font-mono text-xs">
+                    <div className="flex items-center gap-2 text-[#B8A17A] font-bold uppercase tracking-wider mb-3 text-[11px]">
+                      <span className="w-2 h-2 rounded-full bg-[#B8A17A]" />
+                      <span>Stage 2 · Unverified Assumptions ({investigationResult.assumptions_identified?.length || 0})</span>
+                    </div>
+                    <ul className="space-y-1.5 text-[#788579] font-sans text-xs">
+                      {investigationResult.assumptions_identified?.length ? (
+                        investigationResult.assumptions_identified.map((a, i) => (
+                          <li key={i} className="flex items-start gap-2">
+                            <span className="text-[#B8A17A] font-bold">?</span>
+                            <span>{a}</span>
+                          </li>
+                        ))
+                      ) : (
+                        <li className="text-[#9A9C91] italic">No unverified assumptions — fully grounded in empirical telemetry.</li>
+                      )}
+                    </ul>
+                  </div>
+                </div>
+              )}
+
+              {/* Stage 8: Empirical Verification Checklist */}
+              {investigationResult.verification_checklist && investigationResult.verification_checklist.length > 0 && (
+                <div className="rounded-xl bg-white border border-[#E9E8DF] p-5 shadow-sm font-mono text-xs">
+                  <div className="flex items-center justify-between mb-3 border-b border-[#E9E8DF] pb-2">
+                    <span className="font-bold text-[#25352D] uppercase tracking-wider text-[11px]">
+                      Stage 8 · Empirical Verification Checklist
+                    </span>
+                    <span className="text-[10px] text-[#788579]">Pre-flight & Post-flight Checks</span>
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    {investigationResult.verification_checklist.map((c, i) => (
+                      <div key={i} className="p-3 rounded-lg bg-[#F8F7F2] border border-[#E9E8DF] space-y-1">
+                        <div className="flex items-center justify-between">
+                          <span className="text-[10px] text-[#788579] font-bold uppercase">Check 0{i + 1}</span>
+                          <span
+                            className={`px-1.5 py-0.5 rounded text-[9px] font-bold uppercase ${
+                              c.status === "passed"
+                                ? "bg-[#EAF2EC] text-[#267B5B] border border-[#BFD8C6]"
+                                : "bg-[#FCF6ED] text-[#C58B43] border border-[#E8D3B6]"
+                            }`}
+                          >
+                            {c.status}
+                          </span>
+                        </div>
+                        <div className="font-bold text-[#25352D] font-sans text-xs">{c.check}</div>
+                        <div className="text-[10px] text-[#788579] truncate">{c.evidence}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
 
               {/* Hypotheses Grid */}
               <div className="space-y-4">
